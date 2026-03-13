@@ -5,38 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Solidus Digital Zine</title>
     <style>
-        body { 
-            background-color: #f8f8f8; 
-            margin: 0; 
+        /* 全体の設定：画面からはみ出さない */
+        body, html { 
+            margin: 0; padding: 0; 
+            width: 100%; height: 100%;
+            background-color: #f8f8f8;
             overflow: hidden; 
         }
+
+        /* 横にスライドするエリア */
         .container {
+            display: flex;
             width: 100vw;
             height: 100vh;
-            display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
+
+        /* 1ページ分の枠 */
         .page {
-            display: flex;
+            flex: 0 0 100vw; /* デフォルト（縦）は画面幅100% */
             height: 100vh;
-            flex-shrink: 0;
+            display: flex;
             scroll-snap-align: start;
         }
+
+        /* 画像の設定 */
         .page-img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            background-color: #fff;
-            /* ページっぽさを出すための薄い影（左右の接続面以外に適用） */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: block;
         }
 
-        /* --- 隙間ゼロの魔法 --- */
-
-        /* 【縦向き】 画面幅いっぱいに1枚 */
+        /* 【縦向きの時】中央に1枚 */
         @media (orientation: portrait) {
             .page {
                 width: 100vw;
@@ -44,36 +47,47 @@
                 align-items: center;
             }
             .page-img {
-                max-width: 95%; /* 縦の時は少し余白があったほうが綺麗 */
+                max-width: 95%; /* 縦は少し余白 */
                 max-height: 90%;
             }
         }
 
-        /* 【横向き】 画面半分に1枚 ＆ 左右をくっつける */
+        /* 【横向きの時】画面の半分を1枚にして左右を密着させる */
         @media (orientation: landscape) {
             .page {
+                flex: 0 0 50vw; /* ここで「半分」を指定 */
                 width: 50vw;
             }
-            /* 奇数ページ（左側）は右寄せ */
-            .page:nth-child(odd) {
-                justify-content: flex-end;
-            }
-            /* 偶数ページ（右側）は左寄せ */
-            .page:nth-child(even) {
-                justify-content: flex-start;
-            }
+            /* 奇数ページ（左）は右寄せ */
+            .page:nth-child(odd) { justify-content: flex-end; }
+            /* 偶数ページ（右）は左寄せ */
+            .page:nth-child(even) { justify-content: flex-start; }
+            
             .page-img {
-                max-width: 100%;
-                max-height: 100%; /* 横の時は上下いっぱいに表示 */
+                width: auto;
+                height: 100%; /* 上下いっぱいに */
             }
         }
 
+        /* ページ番号 */
         .page-num {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(255,255,255,0.9);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
             color: #333;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="zine-box">
+    </div>
+<div class="page-num" id="num">01 / 32</div>
+
+<script>
+    const box = document.getElementById('zine-box');
