@@ -6,60 +6,38 @@
     <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
-        body { 
-            background-color: #f8f8f8; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh;
-            height: -webkit-fill-available;
-            overflow: hidden; 
-        }
-        .container { 
-            width: 100%; 
-            height: 100%; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
+        body { background-color: #f8f8f8; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
         #book { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .page { background-color: #fff; width: 100%; height: 100%; }
-        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; }
     </style>
 </head>
 <body>
-
-<div class="container" id="container">
-    <div id="book"></div>
-</div>
+<div class="container" id="container"><div id="book"></div></div>
 
 <script>
     let pageFlip = null;
 
-    function createBook() {
+    function init() {
         const bookElement = document.getElementById('book');
-        
-        // 既存のブックを破棄して中身をクリア
-        if (pageFlip) {
-            pageFlip.destroy();
-            bookElement.innerHTML = '';
-        }
+        if (pageFlip) { pageFlip.destroy(); bookElement.innerHTML = ''; }
 
-        // ページを生成
+        // ページ生成
         for (let i = 1; i <= 32; i++) {
-            const num = i.toString().padStart(2, '0');
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'page';
-            pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
-            bookElement.appendChild(pageDiv);
+            const div = document.createElement('div');
+            div.className = 'page';
+            div.innerHTML = `<img src="page${i.toString().padStart(2, '0')}.jpg" class="page-img">`;
+            bookElement.appendChild(div);
         }
 
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        
-        // ★ここが最重要設定：画面が「縦長」なら強制的に portrait（1枚）モードにする
-        const isPortrait = vh > vw;
+
+        // 【ここがポイント】
+        // スマホ（幅が狭い、または縦長）の時は、強制的に 'portrait' モードを指定。
+        // さらに、ライブラリが「見開きにしたい」と思わないように設定を固定します。
+        const isMobile = (vw < 768) || (vh > vw);
 
         pageFlip = new St.PageFlip(bookElement, {
             width: 1500,
@@ -67,27 +45,21 @@
             size: "stretch",
             showCover: true,
             drawShadow: true,
-            mode: isPortrait ? "portrait" : "landscape", // 縦なら1枚、横なら2枚
+            mode: isMobile ? "portrait" : "landscape",
             autoSize: true,
             mobileScrollSupport: true,
-            clickEventForward: false
+            // 2ページ表示を禁止する設定を追加
+            usePortrait: isMobile, 
+            startPage: 0
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
     }
 
-    // 初回読み込み
-    window.onload = createBook;
-
-    // 画面の向きが変わったとき（またはリサイズ時）に再起動
-    let lastWidth = window.innerWidth;
-    window.addEventListener('resize', () => {
-        if (window.innerWidth !== lastWidth) {
-            lastWidth = window.innerWidth;
-            createBook();
-        }
+    window.onload = init;
+    window.addEventListener('orientationchange', () => {
+        setTimeout(init, 500); // 回転時は少し待ってから再構築
     });
 </script>
-
 </body>
 </html>
