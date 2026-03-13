@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
@@ -13,20 +13,23 @@
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
-            overflow: hidden; 
+            /* ピンチズームができるよう、親要素の固定を解除 */
+            overflow: auto; 
         }
 
         .container { 
-            /* 画面の95%に収まるように制限をかけます */
-            width: 95vw; 
-            height: 95vh; 
+            width: 100vw; 
+            height: 100vh; 
             display: flex; 
             justify-content: center; 
-            align-items: center; 
+            align-items: center;
+            /* ズーム時にコンテンツが消えないように設定 */
+            min-height: -webkit-fill-available;
         }
 
         #book { 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: auto;
         }
 
         .page { 
@@ -40,9 +43,9 @@
             height: 100%; 
             object-fit: contain; 
             display: block; 
+            /* 画像自体のドラッグによるズーム阻害を防止 */
+            pointer-events: none; 
         }
-
-        /* 文字を表示させていた部分は削除しました */
     </style>
 </head>
 <body>
@@ -67,23 +70,24 @@
         const pageFlip = new St.PageFlip(bookElement, {
             width: 1500,
             height: 2120,
-            size: "stretch", // 画面に合わせて伸縮させる
+            size: "stretch", 
             minWidth: 200,
-            maxWidth: 1500,
+            maxWidth: 2000,
             minHeight: 282,
-            maxHeight: 2120,
+            maxHeight: 2828,
             showCover: true,
             drawShadow: true,
             flippingTime: 800,
-            usePortrait: true, // 縦向きなら1枚、横向きなら2枚に自動切替
-            startPage: 0,
-            autoSize: true, // 親要素のサイズに合わせて自動調整
-            mobileScrollSupport: true
+            // 縦持ちなら1枚、横持ちなら見開きに自動で切り替える設定
+            usePortrait: true, 
+            autoSize: true,
+            mobileScrollSupport: true,
+            clickEventForward: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        // 画面の向きを変えた時に、本のサイズを再計算して「収まるように」します
+        // 画面リサイズ（回転）時に本の位置とサイズを再計算
         window.addEventListener('resize', () => {
             pageFlip.update();
         });
