@@ -12,8 +12,8 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            /* スマホのツールバーを含まない正確な高さを指定 */
             height: 100vh;
+            /* iOS Safariのツールバー対策 */
             height: -webkit-fill-available;
             overflow: hidden; 
         }
@@ -25,7 +25,7 @@
             justify-content: center; 
             align-items: center;
             box-sizing: border-box;
-            padding: 10px; /* 画面端のギリギリ防止 */
+            padding: 5px; 
         }
 
         #book { 
@@ -71,35 +71,4 @@
             width: 1500,
             height: 2120,
             size: "stretch",
-            minWidth: 200,
-            maxWidth: 2000,
-            minHeight: 282,
-            maxHeight: 2828,
-            showCover: true,
-            drawShadow: true,
-            flippingTime: 800,
-            usePortrait: true,
-            autoSize: true,
-            mobileScrollSupport: true,
-            clickEventForward: true
-        });
-
-        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-        // 高さに合わせてサイズを強制調整する関数
-        const fixSize = () => {
-            const vh = window.innerHeight;
-            const vw = window.innerWidth;
-            
-            // 縦横比に合わせてコンテナサイズを微調整
-            container.style.height = `${vh}px`;
-            pageFlip.update();
-        };
-
-        window.addEventListener('resize', fixSize);
-        fixSize(); // 初回実行
-    };
-</script>
-
-</body>
-</html>
+            minWidth:
