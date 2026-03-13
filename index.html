@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
+        /* 背景色をSolidusの世界観に。高級感のある非常に薄いグレー */
         body { 
-            background-color: #f4f4f4; 
+            background-color: #f8f8f8; 
             margin: 0; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
-            /* ピンチズームができるよう、親要素の固定を解除 */
-            overflow: auto; 
+            overflow: auto; /* ピンチズーム後のスクロール用 */
         }
 
+        /* 本を囲むエリア。画面の高さ・幅いっぱいに使う */
         .container { 
             width: 100vw; 
             height: 100vh; 
             display: flex; 
             justify-content: center; 
             align-items: center;
-            /* ズーム時にコンテンツが消えないように設定 */
-            min-height: -webkit-fill-available;
+            padding: 20px; /* 端に少しだけ余白を作って美しく */
+            box-sizing: border-box;
         }
 
         #book { 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1); /* 柔らかい影 */
             margin: auto;
         }
 
@@ -43,8 +44,7 @@
             height: 100%; 
             object-fit: contain; 
             display: block; 
-            /* 画像自体のドラッグによるズーム阻害を防止 */
-            pointer-events: none; 
+            pointer-events: none; /* 拡大操作を邪魔しない設定 */
         }
     </style>
 </head>
@@ -68,18 +68,18 @@
 
     window.onload = () => {
         const pageFlip = new St.PageFlip(bookElement, {
-            width: 1500,
-            height: 2120,
-            size: "stretch", 
-            minWidth: 200,
+            width: 1500,     // 画像の元の幅
+            height: 2120,    // 画像の元の高さ
+            size: "stretch", // 画面に合わせて可変
+            minWidth: 250,
             maxWidth: 2000,
-            minHeight: 282,
+            minHeight: 353,
             maxHeight: 2828,
-            showCover: true,
+            showCover: true, // 表紙を1枚にする
             drawShadow: true,
             flippingTime: 800,
-            // 縦持ちなら1枚、横持ちなら見開きに自動で切り替える設定
-            usePortrait: true, 
+            usePortrait: true, // 縦持ちは1枚、横持ちは2枚（見開き）に自動切替
+            startPage: 0,
             autoSize: true,
             mobileScrollSupport: true,
             clickEventForward: true
@@ -87,7 +87,7 @@
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        // 画面リサイズ（回転）時に本の位置とサイズを再計算
+        // 画面の向きを変えた時やサイズ変更時に再計算
         window.addEventListener('resize', () => {
             pageFlip.update();
         });
