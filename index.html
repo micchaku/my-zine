@@ -9,23 +9,23 @@
         body { 
             background-color: #f8f8f8; 
             margin: 0; 
+            padding: 0;
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh;
-            /* iOS Safariのツールバー対策 */
             height: -webkit-fill-available;
             overflow: hidden; 
         }
 
         .container { 
-            width: 100%; 
-            height: 100%; 
+            width: 100vw; 
+            height: 100vh; 
             display: flex; 
             justify-content: center; 
             align-items: center;
             box-sizing: border-box;
-            padding: 5px; 
+            padding: 10px;
         }
 
         #book { 
@@ -56,57 +56,9 @@
 
 <script>
     const bookElement = document.getElementById('book');
-    const container = document.getElementById('container');
     
+    // 1. ページ要素を生成
     for (let i = 1; i <= 32; i++) {
         const num = i.toString().padStart(2, '0');
         const pageDiv = document.createElement('div');
-        pageDiv.className = 'page';
-        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img" loading="lazy">`;
-        bookElement.appendChild(pageDiv);
-    }
-
-    window.onload = () => {
-        const pageFlip = new St.PageFlip(bookElement, {
-            width: 1500,
-            height: 2120,
-            size: "stretch",
-            minWidth: 200,
-            maxWidth: 2000,
-            minHeight: 282,
-            maxHeight: 2828,
-            showCover: true,
-            drawShadow: true,
-            flippingTime: 800,
-            // ここが重要：縦横比をみて自動で1枚か2枚か判断させます
-            mode: "portrait", 
-            usePortrait: true,
-            autoSize: true,
-            mobileScrollSupport: true,
-            clickEventForward: true
-        });
-
-        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-        // 画面サイズに応じて表示モード（1枚/2枚）を切り替える関数
-        const updateLayout = () => {
-            const vh = window.innerHeight;
-            const vw = window.innerWidth;
-            container.style.height = `${vh}px`;
-
-            if (vw < vh) {
-                // 縦長画面なら1枚モード
-                pageFlip.update({mode: "portrait"});
-            } else {
-                // 横長画面なら見開きモード
-                pageFlip.update({mode: "landscape"});
-            }
-        };
-
-        window.addEventListener('resize', updateLayout);
-        updateLayout(); // 初回実行
-    };
-</script>
-
-</body>
-</html>
+        page
