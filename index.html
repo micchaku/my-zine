@@ -12,7 +12,6 @@
             overflow: hidden; 
         }
 
-        /* 横にスライドするエリア */
         .container {
             display: flex;
             width: 100vw;
@@ -22,7 +21,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 1ページ分の枠 */
         .page {
             flex: 0 0 100vw; 
             height: 100vh;
@@ -36,7 +34,7 @@
             object-fit: contain;
         }
 
-        /* --- 縦向き：1枚表示 --- */
+        /* --- 縦向き：すべて1枚表示 --- */
         @media (orientation: portrait) {
             .page {
                 width: 100vw;
@@ -50,15 +48,26 @@
             }
         }
 
-        /* --- 横向き：隙間なし見開き --- */
+        /* --- 横向き：表紙は1枚、次から見開き --- */
         @media (orientation: landscape) {
-            .page {
+            /* 1枚目（表紙）と最後のページは、横画面でも中央に1枚だけ出す */
+            .page:first-child, .page:last-child {
+                flex: 0 0 100vw;
+                width: 100vw;
+                justify-content: center;
+            }
+
+            /* 2枚目〜31枚目までは、画面の半分（見開き）にする */
+            .page:not(:first-child):not(:last-child) {
                 flex: 0 0 50vw;
                 width: 50vw;
             }
-            /* 左ページを右寄せ、右ページを左寄せ */
-            .page:nth-child(odd) { justify-content: flex-end; }
-            .page:nth-child(even) { justify-content: flex-start; }
+
+            /* 見開きの左側（偶数番目：2, 4, 6...）は右寄せ */
+            /* 見開きの右側（奇数番目：3, 5, 7...）は左寄せ */
+            /* これで表紙の次の「2ページ目と3ページ目」がピタッとくっつきます */
+            .page:nth-child(even) { justify-content: flex-end; }
+            .page:nth-child(odd):not(:first-child) { justify-content: flex-start; }
             
             .page-img {
                 width: auto;
@@ -102,8 +111,4 @@
     <div class="page"><img src="page29.jpg" class="page-img"></div>
     <div class="page"><img src="page30.jpg" class="page-img"></div>
     <div class="page"><img src="page31.jpg" class="page-img"></div>
-    <div class="page"><img src="page32.jpg" class="page-img"></div>
-</div>
-
-</body>
-</html>
+    <div class="page"><img src="page32.jpg" class="page
