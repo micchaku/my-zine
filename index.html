@@ -8,7 +8,7 @@
         body, html { 
             margin: 0; padding: 0; 
             width: 100%; height: 100%;
-            background-color: #f0f0f0; /* 背景を少し落ち着いた色に */
+            background-color: #ebebeb; /* 背景を少し深くして高級感を */
             overflow: hidden; 
         }
 
@@ -19,6 +19,7 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            /* スライドを滑らかにする */
             scroll-behavior: smooth;
         }
 
@@ -28,27 +29,23 @@
             display: flex;
             scroll-snap-align: start;
             box-sizing: border-box;
-            /* めくるような重なりを作るための設定 */
-            position: sticky;
-            left: 0;
-            background-color: #f0f0f0;
         }
 
         .page-img {
             display: block;
             object-fit: contain;
-            /* ページに立体感を出すための薄い影 */
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            /* ページ単体に影をつけ、浮き上がった「紙」を表現 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background-color: #fff;
         }
 
-        /* --- 縦向き：1枚表示 ＆ フェード効果 --- */
+        /* --- 縦向き：中央に1枚 --- */
         @media (orientation: portrait) {
             .page {
                 width: 100vw;
                 justify-content: center;
                 align-items: center;
-                padding: 20px;
+                padding: 25px; /* 画面端に少し余裕を */
             }
             .page-img {
                 max-width: 100%;
@@ -56,4 +53,78 @@
             }
         }
 
-        /* --- 横向き：表紙は1枚、次から見開き ＆ 重なり効果 ---
+        /* --- 横向き：隙間なし・中綴じに影 --- */
+        @media (orientation: landscape) {
+            .page:first-child, .page:last-child {
+                flex: 0 0 100vw;
+                width: 100vw;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .page:not(:first-child):not(:last-child) {
+                flex: 0 0 50vw;
+                width: 50vw;
+            }
+
+            .page:nth-child(even) { justify-content: flex-end; }
+            .page:nth-child(odd):not(:first-child) { justify-content: flex-start; }
+            
+            .page-img {
+                width: auto;
+                height: 90%; /* 横画面でも少し上下に余裕を */
+                max-width: 100%;
+            }
+
+            /* 本の中央の「溝」を表現するグラデーション影 */
+            .page:nth-child(even) .page-img {
+                border-right: 1px solid rgba(0,0,0,0.1);
+                /* 右端（綴じ目側）にうっすら影を落とす */
+                box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
+            }
+            .page:nth-child(odd):not(:first-child) .page-img {
+                /* 左端（綴じ目側）にうっすら影を落とす */
+                box-shadow: -10px 10px 30px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page"><img src="page01.jpg" class="page-img"></div>
+    <div class="page"><img src="page02.jpg" class="page-img"></div>
+    <div class="page"><img src="page03.jpg" class="page-img"></div>
+    <div class="page"><img src="page04.jpg" class="page-img"></div>
+    <div class="page"><img src="page05.jpg" class="page-img"></div>
+    <div class="page"><img src="page06.jpg" class="page-img"></div>
+    <div class="page"><img src="page07.jpg" class="page-img"></div>
+    <div class="page"><img src="page08.jpg" class="page-img"></div>
+    <div class="page"><img src="page09.jpg" class="page-img"></div>
+    <div class="page10.jpg" class="page"><img src="page10.jpg" class="page-img"></div>
+    <div class="page"><img src="page11.jpg" class="page-img"></div>
+    <div class="page"><img src="page12.jpg" class="page-img"></div>
+    <div class="page"><img src="page13.jpg" class="page-img"></div>
+    <div class="page"><img src="page14.jpg" class="page-img"></div>
+    <div class="page"><img src="page15.jpg" class="page-img"></div>
+    <div class="page"><img src="page16.jpg" class="page-img"></div>
+    <div class="page"><img src="page17.jpg" class="page-img"></div>
+    <div class="page"><img src="page18.jpg" class="page-img"></div>
+    <div class="page"><img src="page19.jpg" class="page-img"></div>
+    <div class="page"><img src="page20.jpg" class="page-img"></div>
+    <div class="page"><img src="page21.jpg" class="page-img"></div>
+    <div class="page"><img src="page22.jpg" class="page-img"></div>
+    <div class="page"><img src="page23.jpg" class="page-img"></div>
+    <div class="page"><img src="page24.jpg" class="page-img"></div>
+    <div class="page"><img src="page25.jpg" class="page-img"></div>
+    <div class="page"><img src="page26.jpg" class="page-img"></div>
+    <div class="page"><img src="page27.jpg" class="page-img"></div>
+    <div class="page"><img src="page28.jpg" class="page-img"></div>
+    <div class="page"><img src="page29.jpg" class="page-img"></div>
+    <div class="page"><img src="page30.jpg" class="page-img"></div>
+    <div class="page"><img src="page31.jpg" class="page-img"></div>
+    <div class="page"><img src="page32.jpg" class="page-img"></div>
+</div>
+
+</body>
+</html>
