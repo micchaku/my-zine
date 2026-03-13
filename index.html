@@ -9,35 +9,52 @@
             background-color: #f8f8f8; 
             margin: 0; 
             overflow: hidden; 
-            font-family: sans-serif;
         }
-        /* 横にスライドするコンテナ */
+        /* スライドコンテナ */
         .container {
             width: 100vw;
             height: 100vh;
             display: flex;
             overflow-x: auto;
-            scroll-snap-type: x mandatory; /* 1枚ずつピタッと止まる */
+            scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
         .page {
-            flex: 0 0 100vw; /* 画面幅いっぱいに1枚。絶対に並ばせない */
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             scroll-snap-align: start;
-            position: relative;
+            flex-shrink: 0;
         }
         .page-img {
-            max-width: 95%; /* 左右に少し余白 */
-            max-height: 90%; /* 上下に少し余白 */
+            max-width: 95%;
+            max-height: 90%;
             object-fit: contain;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             background-color: #fff;
         }
-        /* ページ番号 */
+
+        /* --- ここが魔法の切り替え設定 --- */
+
+        /* 【縦向きの時】 1ページを画面幅100%にする */
+        @media (orientation: portrait) {
+            .page {
+                width: 100vw;
+            }
+        }
+
+        /* 【横向きの時】 1ページを画面幅50%（＝見開き）にする */
+        @media (orientation: landscape) {
+            .page {
+                width: 50vw;
+            }
+            /* 横向きの時はスナップ（ピタッと止まる位置）を調整 */
+            .container {
+                scroll-snap-type: x proximity;
+            }
+        }
+
         .page-num {
             position: fixed;
             bottom: 25px;
@@ -45,18 +62,16 @@
             background: rgba(255,255,255,0.9);
             padding: 5px 15px;
             border-radius: 20px;
-            font-size: 13px;
-            letter-spacing: 0.1em;
+            font-size: 12px;
             color: #333;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             pointer-events: none;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="container">
-    </div>
+<div class="container" id="container"></div>
 <div class="page-num" id="indicator">01 / 32</div>
 
 <script>
@@ -69,14 +84,14 @@
         const img = document.createElement('img');
         img.src = `page${i.toString().padStart(2, '0')}.jpg`;
         img.className = 'page-img';
-        img.loading = "lazy";
         page.appendChild(img);
         container.appendChild(page);
     }
 
-    // スクロールに合わせてページ番号を更新
     container.addEventListener('scroll', () => {
-        const index = Math.round(container.scrollLeft / window.innerWidth) + 1;
+        // 縦横で1ページあたりの幅が違うので計算を分ける
+        const pageWidth = (window.innerHeight > window.innerWidth) ? window.innerWidth : (window.innerWidth / 2);
+        const index = Math.round(container.scrollLeft / pageWidth) + 1;
         indicator.innerText = `${index.toString().padStart(2, '0')} / 32`;
     });
 </script>
