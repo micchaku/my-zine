@@ -9,56 +9,92 @@
         body { 
             background-color: #f8f8f8; 
             margin: 0; 
-            padding: 0;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
             height: 100vh;
             height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden; 
         }
-
         .container { 
-            width: 100vw; 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
+            width: 100%; 
+            height: 100%; 
+            display: flex;
+            justify-content: center;
             align-items: center;
-            box-sizing: border-box;
             padding: 10px;
+            box-sizing: border-box;
         }
-
-        #book { 
-            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
-        }
-
-        .page { 
-            background-color: #fff; 
-            width: 100%; 
-            height: 100%; 
-        }
-
-        .page-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            display: block; 
-            pointer-events: none;
-        }
+        #book { box-shadow: 0 15px 45px rgba(0,0,0,0.1); }
+        .page { background-color: #fff; width: 100%; height: 100%; }
+        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
     </style>
 </head>
 <body>
 
-<div class="container" id="container">
-    <div id="book">
-        </div>
+<div class="container">
+    <div id="book"></div>
 </div>
 
 <script>
     const bookElement = document.getElementById('book');
-    
-    // 1. ページ要素を生成
     for (let i = 1; i <= 32; i++) {
         const num = i.toString().padStart(2, '0');
         const pageDiv = document.createElement('div');
-        page
+        pageDiv.className = 'page';
+        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
+        bookElement.appendChild(pageDiv);
+    }
+
+    let pageFlip = null;
+
+    function initFlip() {
+        // すでにインスタンスがある場合は一度破棄する
+        if (pageFlip) {
+            pageFlip.destroy();
+            bookElement.innerHTML = ''; // 中身を一度空にする
+            // ページを再生成
+            for (let i = 1; i <= 32; i++) {
+                const num = i.toString().padStart(2, '0');
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'page';
+                pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
+                bookElement.appendChild(pageDiv);
+            }
+        }
+
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        // 「画面の幅 < 画面の高さ」なら縦モード(portrait)
+        const isPortrait = vw < vh;
+
+        pageFlip = new St.PageFlip(bookElement, {
+            width: 1500,
+            height: 2120,
+            size: "stretch",
+            showCover: true,
+            drawShadow: true,
+            flippingTime: 800,
+            mode: isPortrait ? "portrait" : "landscape",
+            autoSize: true,
+            mobileScrollSupport: true
+        });
+
+        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+    }
+
+    window.onload = initFlip;
+
+    // 画面の向きが変わったときだけ再初期化する
+    let lastOrientation = window.innerWidth < window.innerHeight;
+    window.addEventListener('resize', () => {
+        const currentOrientation = window.innerWidth < window.innerHeight;
+        if (currentOrientation !== lastOrientation) {
+            lastOrientation = currentOrientation;
+            initFlip();
+        }
+    });
+</script>
+
+</body>
+</html>
