@@ -6,22 +6,20 @@
     <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
-        /* 背景をSolidusのブランドイメージに合わせて微調整できます */
         body { 
-            background-color: #f4f4f4; /* 少し明るめのグレーで高級感を */
+            background-color: #f4f4f4; 
             margin: 0; 
             display: flex; 
-            flex-direction: column;
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             overflow: hidden; 
-            font-family: "Helvetica Neue", Arial, sans-serif; 
         }
 
         .container { 
+            /* 画面の95%に収まるように制限をかけます */
             width: 95vw; 
-            height: 85vh; 
+            height: 95vh; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -44,14 +42,7 @@
             display: block; 
         }
 
-        /* 操作ヒント（必要であれば） */
-        .instruction {
-            position: fixed;
-            bottom: 20px;
-            color: #888;
-            font-size: 12px;
-            letter-spacing: 0.1em;
-        }
+        /* 文字を表示させていた部分は削除しました */
     </style>
 </head>
 <body>
@@ -60,8 +51,6 @@
     <div id="book">
         </div>
 </div>
-
-<div class="instruction">TAP OR DRAG TO FLIP</div>
 
 <script>
     const bookElement = document.getElementById('book');
@@ -75,27 +64,26 @@
     }
 
     window.onload = () => {
-        // 画像の比率 1500:2120 に基づく設定
         const pageFlip = new St.PageFlip(bookElement, {
             width: 1500,
             height: 2120,
-            size: "stretch",
-            minWidth: 300,
+            size: "stretch", // 画面に合わせて伸縮させる
+            minWidth: 200,
             maxWidth: 1500,
-            minHeight: 424,
+            minHeight: 282,
             maxHeight: 2120,
-            showCover: true,      // 表紙を1枚にする
+            showCover: true,
             drawShadow: true,
-            flippingTime: 1000,
-            usePortrait: true,    // 縦向き（スマホ）の時は自動で1枚表示に切替
+            flippingTime: 800,
+            usePortrait: true, // 縦向きなら1枚、横向きなら2枚に自動切替
             startPage: 0,
-            autoSize: true,
-            mobileScrollSupport: true // スマホでのスクロール干渉を抑制
+            autoSize: true, // 親要素のサイズに合わせて自動調整
+            mobileScrollSupport: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        // 画面サイズが変わった時に再計算させる（スマホの回転対策）
+        // 画面の向きを変えた時に、本のサイズを再計算して「収まるように」します
         window.addEventListener('resize', () => {
             pageFlip.update();
         });
