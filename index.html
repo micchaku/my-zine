@@ -6,31 +6,30 @@
     <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
-        /* 背景色をSolidusの世界観に。高級感のある非常に薄いグレー */
         body { 
             background-color: #f8f8f8; 
             margin: 0; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            min-height: 100vh; 
-            overflow: auto; /* ピンチズーム後のスクロール用 */
+            /* スマホのツールバーを含まない正確な高さを指定 */
+            height: 100vh;
+            height: -webkit-fill-available;
+            overflow: hidden; 
         }
 
-        /* 本を囲むエリア。画面の高さ・幅いっぱいに使う */
         .container { 
-            width: 100vw; 
-            height: 100vh; 
+            width: 100%; 
+            height: 100%; 
             display: flex; 
             justify-content: center; 
             align-items: center;
-            padding: 20px; /* 端に少しだけ余白を作って美しく */
             box-sizing: border-box;
+            padding: 10px; /* 画面端のギリギリ防止 */
         }
 
         #book { 
-            box-shadow: 0 15px 45px rgba(0,0,0,0.1); /* 柔らかい影 */
-            margin: auto;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
         }
 
         .page { 
@@ -44,19 +43,20 @@
             height: 100%; 
             object-fit: contain; 
             display: block; 
-            pointer-events: none; /* 拡大操作を邪魔しない設定 */
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="container">
     <div id="book">
         </div>
 </div>
 
 <script>
     const bookElement = document.getElementById('book');
+    const container = document.getElementById('container');
     
     for (let i = 1; i <= 32; i++) {
         const num = i.toString().padStart(2, '0');
@@ -68,18 +68,17 @@
 
     window.onload = () => {
         const pageFlip = new St.PageFlip(bookElement, {
-            width: 1500,     // 画像の元の幅
-            height: 2120,    // 画像の元の高さ
-            size: "stretch", // 画面に合わせて可変
-            minWidth: 250,
+            width: 1500,
+            height: 2120,
+            size: "stretch",
+            minWidth: 200,
             maxWidth: 2000,
-            minHeight: 353,
+            minHeight: 282,
             maxHeight: 2828,
-            showCover: true, // 表紙を1枚にする
+            showCover: true,
             drawShadow: true,
             flippingTime: 800,
-            usePortrait: true, // 縦持ちは1枚、横持ちは2枚（見開き）に自動切替
-            startPage: 0,
+            usePortrait: true,
             autoSize: true,
             mobileScrollSupport: true,
             clickEventForward: true
@@ -87,10 +86,18 @@
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        // 画面の向きを変えた時やサイズ変更時に再計算
-        window.addEventListener('resize', () => {
+        // 高さに合わせてサイズを強制調整する関数
+        const fixSize = () => {
+            const vh = window.innerHeight;
+            const vw = window.innerWidth;
+            
+            // 縦横比に合わせてコンテナサイズを微調整
+            container.style.height = `${vh}px`;
             pageFlip.update();
-        });
+        };
+
+        window.addEventListener('resize', fixSize);
+        fixSize(); // 初回実行
     };
 </script>
 
