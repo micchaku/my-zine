@@ -2,15 +2,56 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>32P Digital Zine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Solidus Digital Zine</title>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
-        body { background-color: #1a1a1a; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; font-family: sans-serif; }
-        .container { width: 90vw; height: 90vh; display: flex; justify-content: center; align-items: center; }
-        #book { box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .page { background-color: #fff; width: 100%; height: 100%; }
-        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
+        /* 背景をSolidusのブランドイメージに合わせて微調整できます */
+        body { 
+            background-color: #f4f4f4; /* 少し明るめのグレーで高級感を */
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            overflow: hidden; 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+        }
+
+        .container { 
+            width: 95vw; 
+            height: 85vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        #book { 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        }
+
+        .page { 
+            background-color: #fff; 
+            width: 100%; 
+            height: 100%; 
+        }
+
+        .page-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            display: block; 
+        }
+
+        /* 操作ヒント（必要であれば） */
+        .instruction {
+            position: fixed;
+            bottom: 20px;
+            color: #888;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
     </style>
 </head>
 <body>
@@ -20,35 +61,44 @@
         </div>
 </div>
 
+<div class="instruction">TAP OR DRAG TO FLIP</div>
+
 <script>
     const bookElement = document.getElementById('book');
     
-    // 32ページ分の画像を表示する設定
     for (let i = 1; i <= 32; i++) {
         const num = i.toString().padStart(2, '0');
         const pageDiv = document.createElement('div');
         pageDiv.className = 'page';
-        // 画像の名前が「page01.jpg」〜「page32.jpg」であることを想定しています
-        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
+        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img" loading="lazy">`;
         bookElement.appendChild(pageDiv);
     }
 
     window.onload = () => {
+        // 画像の比率 1500:2120 に基づく設定
         const pageFlip = new St.PageFlip(bookElement, {
-            width: 500,         // 1ページの横幅
-            height: 700,        // 1ページの高さ
+            width: 1500,
+            height: 2120,
             size: "stretch",
             minWidth: 300,
-            maxWidth: 1000,
-            minHeight: 420,
-            maxHeight: 1400,
-            showCover: true,    // 表紙を1枚にする設定
-            drawShadow: true,   // めくる時の影をつける
-            flippingTime: 800,  // めくるスピード
-            mobileScrollSupport: false
+            maxWidth: 1500,
+            minHeight: 424,
+            maxHeight: 2120,
+            showCover: true,      // 表紙を1枚にする
+            drawShadow: true,
+            flippingTime: 1000,
+            usePortrait: true,    // 縦向き（スマホ）の時は自動で1枚表示に切替
+            startPage: 0,
+            autoSize: true,
+            mobileScrollSupport: true // スマホでのスクロール干渉を抑制
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+        // 画面サイズが変わった時に再計算させる（スマホの回転対策）
+        window.addEventListener('resize', () => {
+            pageFlip.update();
+        });
     };
 </script>
 
