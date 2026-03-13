@@ -10,7 +10,6 @@
             margin: 0; 
             overflow: hidden; 
         }
-        /* スライドコンテナ */
         .container {
             width: 100vw;
             height: 100vh;
@@ -22,36 +21,50 @@
         }
         .page {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            scroll-snap-align: start;
+            height: 100vh;
             flex-shrink: 0;
+            scroll-snap-align: start;
         }
         .page-img {
-            max-width: 95%;
-            max-height: 90%;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             background-color: #fff;
+            /* ページっぽさを出すための薄い影（左右の接続面以外に適用） */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- ここが魔法の切り替え設定 --- */
+        /* --- 隙間ゼロの魔法 --- */
 
-        /* 【縦向きの時】 1ページを画面幅100%にする */
+        /* 【縦向き】 画面幅いっぱいに1枚 */
         @media (orientation: portrait) {
             .page {
                 width: 100vw;
+                justify-content: center;
+                align-items: center;
+            }
+            .page-img {
+                max-width: 95%; /* 縦の時は少し余白があったほうが綺麗 */
+                max-height: 90%;
             }
         }
 
-        /* 【横向きの時】 1ページを画面幅50%（＝見開き）にする */
+        /* 【横向き】 画面半分に1枚 ＆ 左右をくっつける */
         @media (orientation: landscape) {
             .page {
                 width: 50vw;
             }
-            /* 横向きの時はスナップ（ピタッと止まる位置）を調整 */
-            .container {
-                scroll-snap-type: x proximity;
+            /* 奇数ページ（左側）は右寄せ */
+            .page:nth-child(odd) {
+                justify-content: flex-end;
+            }
+            /* 偶数ページ（右側）は左寄せ */
+            .page:nth-child(even) {
+                justify-content: flex-start;
+            }
+            .page-img {
+                max-width: 100%;
+                max-height: 100%; /* 横の時は上下いっぱいに表示 */
             }
         }
 
@@ -64,37 +77,3 @@
             border-radius: 20px;
             font-size: 12px;
             color: #333;
-            pointer-events: none;
-            z-index: 100;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container" id="container"></div>
-<div class="page-num" id="indicator">01 / 32</div>
-
-<script>
-    const container = document.getElementById('container');
-    const indicator = document.getElementById('indicator');
-
-    for (let i = 1; i <= 32; i++) {
-        const page = document.createElement('div');
-        page.className = 'page';
-        const img = document.createElement('img');
-        img.src = `page${i.toString().padStart(2, '0')}.jpg`;
-        img.className = 'page-img';
-        page.appendChild(img);
-        container.appendChild(page);
-    }
-
-    container.addEventListener('scroll', () => {
-        // 縦横で1ページあたりの幅が違うので計算を分ける
-        const pageWidth = (window.innerHeight > window.innerWidth) ? window.innerWidth : (window.innerWidth / 2);
-        const index = Math.round(container.scrollLeft / pageWidth) + 1;
-        indicator.innerText = `${index.toString().padStart(2, '0')} / 32`;
-    });
-</script>
-
-</body>
-</html>
