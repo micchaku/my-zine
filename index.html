@@ -71,4 +71,42 @@
             width: 1500,
             height: 2120,
             size: "stretch",
-            minWidth:
+            minWidth: 200,
+            maxWidth: 2000,
+            minHeight: 282,
+            maxHeight: 2828,
+            showCover: true,
+            drawShadow: true,
+            flippingTime: 800,
+            // ここが重要：縦横比をみて自動で1枚か2枚か判断させます
+            mode: "portrait", 
+            usePortrait: true,
+            autoSize: true,
+            mobileScrollSupport: true,
+            clickEventForward: true
+        });
+
+        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+        // 画面サイズに応じて表示モード（1枚/2枚）を切り替える関数
+        const updateLayout = () => {
+            const vh = window.innerHeight;
+            const vw = window.innerWidth;
+            container.style.height = `${vh}px`;
+
+            if (vw < vh) {
+                // 縦長画面なら1枚モード
+                pageFlip.update({mode: "portrait"});
+            } else {
+                // 横長画面なら見開きモード
+                pageFlip.update({mode: "landscape"});
+            }
+        };
+
+        window.addEventListener('resize', updateLayout);
+        updateLayout(); // 初回実行
+    };
+</script>
+
+</body>
+</html>
