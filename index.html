@@ -9,36 +9,32 @@
         body { 
             background-color: #f8f8f8; 
             margin: 0; 
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; 
+            padding: 0;
+            overflow: auto !important; /* ブラウザのスクロール・ズームを優先 */
         }
-        #container { 
+        .container { 
             width: 100vw; 
             height: 100vh; 
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        #book { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .page { background-color: #fff; }
         .page-img { width: 100%; height: 100%; object-fit: contain; display: block; }
     </style>
 </head>
 <body>
 
-<div id="container">
-    <div id="book">
-        </div>
+<div class="container">
+    <div id="book"></div>
 </div>
 
 <script>
-    function renderBook() {
+    window.onload = () => {
         const bookElement = document.getElementById('book');
-        bookElement.innerHTML = ''; // 初期化
-
-        // 32ページ分のHTMLを作成
+        
+        // ページを生成
         for (let i = 1; i <= 32; i++) {
             const num = i.toString().padStart(2, '0');
             const pageDiv = document.createElement('div');
@@ -49,9 +45,6 @@
 
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        
-        // 縦横判定：幅が高さより小さければ「1枚モード(portrait)」、大きければ「見開きモード(landscape)」
-        const mode = (vw < vh) ? 'portrait' : 'landscape';
 
         const pageFlip = new St.PageFlip(bookElement, {
             width: 1500,
@@ -59,23 +52,15 @@
             size: "stretch",
             showCover: true,
             drawShadow: true,
-            mode: mode, 
-            autoSize: true,
-            mobileScrollSupport: true
+            // 縦横の自動判定に頼らず、幅が狭ければ強制的にportraitにする
+            mode: (vw < 768) ? "portrait" : "landscape",
+            mobileScrollSupport: true,
+            clickEventForward: false, // ズーム操作を邪魔しないようにオフ
+            useMouseEvents: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-    }
-
-    // 読み込み時と、画面回転時（サイズ変更時）に実行
-    window.onload = renderBook;
-
-    let timeout = null;
-    window.addEventListener('resize', () => {
-        // 回転中の連続実行を避けるため、少し待ってから実行
-        clearTimeout(timeout);
-        timeout = setTimeout(renderBook, 300);
-    });
+    };
 </script>
 
 </body>
