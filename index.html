@@ -9,72 +9,108 @@
         body { 
             background-color: #f8f8f8; 
             margin: 0; 
+            padding: 0;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            /* iOS Safariのツールバーに邪魔されない高さ設定 */
+            height: -webkit-fill-available;
             overflow: hidden; 
         }
-        #container { 
-            width: 100vw; 
-            height: 100vh; 
-            display: flex;
-            justify-content: center;
+
+        .container { 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            justify-content: center; 
             align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
         }
-        .page { background-color: #fff; }
-        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        #book { 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+        }
+
+        .page { 
+            background-color: #fff; 
+            width: 100%; 
+            height: 100%; 
+        }
+
+        .page-img { 
+            width: 100%; 
+            height: 100%; 
+            /* 画像を枠内に収め、絶対に切らせない設定 */
+            object-fit: contain; 
+            display: block; 
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-<div id="container">
+<div class="container" id="container">
     <div id="book">
         </div>
 </div>
 
 <script>
-    function renderBook() {
-        const bookElement = document.getElementById('book');
-        bookElement.innerHTML = ''; // 初期化
+    let pageFlip = null;
 
-        // 32ページ分のHTMLを作成
+    function initZine() {
+        const bookElement = document.getElementById('book');
+        
+        // 既存の要素をクリア
+        if (pageFlip) {
+            pageFlip.destroy();
+        }
+        bookElement.innerHTML = '';
+
+        // 32ページ生成
         for (let i = 1; i <= 32; i++) {
-            const num = i.toString().padStart(2, '0');
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'page';
-            pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
-            bookElement.appendChild(pageDiv);
+            const div = document.createElement('div');
+            div.className = 'page';
+            div.innerHTML = `<img src="page${i.toString().padStart(2, '0')}.jpg" class="page-img">`;
+            bookElement.appendChild(div);
         }
 
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        
-        // 縦横判定：幅が高さより小さければ「1枚モード(portrait)」、大きければ「見開きモード(landscape)」
-        const mode = (vw < vh) ? 'portrait' : 'landscape';
 
-        const pageFlip = new St.PageFlip(bookElement, {
+        // 【最強の判定ロジック】
+        // 画面が縦長(vh > vw)なら、問答無用で portrait（1枚）モード。
+        // そうでなければ landscape（見開き）モード。
+        const isPortrait = vh > vw;
+
+        pageFlip = new St.PageFlip(bookElement, {
             width: 1500,
             height: 2120,
-            size: "stretch",
+            size: "stretch", // 画面に合わせて伸縮
             showCover: true,
             drawShadow: true,
-            mode: mode, 
+            flippingTime: 800,
+            mode: isPortrait ? "portrait" : "landscape",
             autoSize: true,
-            mobileScrollSupport: true
+            mobileScrollSupport: true,
+            clickEventForward: false, // 拡大操作を優先
+            useMouseEvents: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
     }
 
-    // 読み込み時と、画面回転時（サイズ変更時）に実行
-    window.onload = renderBook;
+    // 起動時
+    window.onload = initZine;
 
-    let timeout = null;
+    // 画面の向きが変わった時（回転させた時）に再構築
+    let lastWidth = window.innerWidth;
     window.addEventListener('resize', () => {
-        // 回転中の連続実行を避けるため、少し待ってから実行
-        clearTimeout(timeout);
-        timeout = setTimeout(renderBook, 300);
+        if (Math.abs(window.innerWidth - lastWidth) > 50) { // 誤動作防止の遊び
+            lastWidth = window.innerWidth;
+            initZine();
+        }
     });
 </script>
 
