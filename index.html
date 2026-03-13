@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>32P Digital Zine</title>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+    <style>
+        body { background-color: #1a1a1a; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; font-family: sans-serif; }
+        .container { width: 90vw; height: 90vh; display: flex; justify-content: center; align-items: center; }
+        #book { box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .page { background-color: #fff; width: 100%; height: 100%; }
+        .page-img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="book">
+        </div>
+</div>
+
+<script>
+    const bookElement = document.getElementById('book');
+    
+    // 32ページ分の画像を表示する設定
+    for (let i = 1; i <= 32; i++) {
+        const num = i.toString().padStart(2, '0');
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'page';
+        // 画像の名前が「page01.jpg」〜「page32.jpg」であることを想定しています
+        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img">`;
+        bookElement.appendChild(pageDiv);
+    }
+
+    window.onload = () => {
+        const pageFlip = new St.PageFlip(bookElement, {
+            width: 500,         // 1ページの横幅
+            height: 700,        // 1ページの高さ
+            size: "stretch",
+            minWidth: 300,
+            maxWidth: 1000,
+            minHeight: 420,
+            maxHeight: 1400,
+            showCover: true,    // 表紙を1枚にする設定
+            drawShadow: true,   // めくる時の影をつける
+            flippingTime: 800,  // めくるスピード
+            mobileScrollSupport: false
+        });
+
+        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+    };
+</script>
+
+</body>
+</html>
