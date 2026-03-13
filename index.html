@@ -1,106 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Solidus Digital Zine</title>
-    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <style>
-        /* 背景をSolidusのブランドイメージに合わせて微調整できます */
-        body { 
-            background-color: #f4f4f4; /* 少し明るめのグレーで高級感を */
-            margin: 0; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            overflow: hidden; 
-            font-family: "Helvetica Neue", Arial, sans-serif; 
+        body, html { 
+            margin: 0; padding: 0; 
+            width: 100%; height: 100%;
+            background-color: #f4f4f4;
+            /* 拡大操作を妨げない設定 */
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
-        .container { 
-            width: 95vw; 
-            height: 85vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+        /* スライドコンテナ */
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
-        #book { 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        /* 1ページ分の枠 */
+        .page {
+            display: flex;
+            height: 100vh;
+            flex-shrink: 0;
+            scroll-snap-align: start;
         }
 
-        .page { 
-            background-color: #fff; 
-            width: 100%; 
-            height: 100%; 
+        .page-img {
+            display: block;
+            object-fit: contain;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background-color: #fff;
         }
 
-        .page-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            display: block; 
+        /* --- 縦向き：1枚表示 --- */
+        @media (orientation: portrait) {
+            .page {
+                width: 100vw;
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+                box-sizing: border-box;
+            }
+            .page-img {
+                max-width: 100%;
+                max-height: 100%;
+            }
         }
 
-        /* 操作ヒント（必要であれば） */
-        .instruction {
-            position: fixed;
-            bottom: 20px;
-            color: #888;
-            font-size: 12px;
-            letter-spacing: 0.1em;
+        /* --- 横向き：表紙は1枚、次から隙間なし見開き --- */
+        @media (orientation: landscape) {
+            /* 1枚目（表紙）と最後は中央 */
+            .page:first-child, .page:last-child {
+                flex: 0 0 100vw;
+                width: 100vw;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* 2枚目以降は見開き（50%幅） */
+            .page:not(:first-child):not(:last-child) {
+                flex: 0 0 50vw;
+                width: 50vw;
+            }
+
+            /* 左ページを右寄せ、右ページを左寄せで密着 */
+            .page:nth-child(even) { justify-content: flex-end; }
+            .page:nth-child(odd):not(:first-child) { justify-content: flex-start; }
+            
+            .page-img {
+                width: auto;
+                height: 100%;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="book">
-        </div>
+    <div class="page"><img src="page01.jpg" class="page-img"></div>
+    <div class="page"><img src="page02.jpg" class="page-img"></div>
+    <div class="page"><img src="page03.jpg" class="page-img"></div>
+    <div class="page"><img src="page04.jpg" class="page-img"></div>
+    <div class="page"><img src="page05.jpg" class="page-img"></div>
+    <div class="page"><img src="page06.jpg" class="page-img"></div>
+    <div class="page"><img src="page07.jpg" class="page-img"></div>
+    <div class="page"><img src="page08.jpg" class="page-img"></div>
+    <div class="page"><img src="page09.jpg" class="page-img"></div>
+    <div class="page"><img src="page10.jpg" class="page-img"></div>
+    <div class="page"><img src="page11.jpg" class="page-img"></div>
+    <div class="page"><img src="page12.jpg" class="page-img"></div>
+    <div class="page"><img src="page13.jpg" class="page-img"></div>
+    <div class="page"><img src="page14.jpg" class="page-img"></div>
+    <div class="page"><img src="page15.jpg" class="page-img"></div>
+    <div class="page"><img src="page16.jpg" class="page-img"></div>
+    <div class="page"><img src="page17.jpg" class="page-img"></div>
+    <div class="page"><img src="page18.jpg" class="page-img"></div>
+    <div class="page"><img src="page19.jpg" class="page-img"></div>
+    <div class="page"><img src="page20.jpg" class="page-img"></div>
+    <div class="page"><img src="page21.jpg" class="page-img"></div>
+    <div class="page"><img src="page22.jpg" class="page-img"></div>
+    <div class="page"><img src="page23.jpg" class="page-img"></div>
+    <div class="page"><img src="page24.jpg" class="page-img"></div>
+    <div class="page"><img src="page25.jpg" class="page-img"></div>
+    <div class="page"><img src="page26.jpg" class="page-img"></div>
+    <div class="page"><img src="page27.jpg" class="page-img"></div>
+    <div class="page"><img src="page28.jpg" class="page-img"></div>
+    <div class="page"><img src="page29.jpg" class="page-img"></div>
+    <div class="page"><img src="page30.jpg" class="page-img"></div>
+    <div class="page"><img src="page31.jpg" class="page-img"></div>
+    <div class="page"><img src="page32.jpg" class="page-img"></div>
 </div>
-
-<div class="instruction">TAP OR DRAG TO FLIP</div>
-
-<script>
-    const bookElement = document.getElementById('book');
-    
-    for (let i = 1; i <= 32; i++) {
-        const num = i.toString().padStart(2, '0');
-        const pageDiv = document.createElement('div');
-        pageDiv.className = 'page';
-        pageDiv.innerHTML = `<img src="page${num}.jpg" class="page-img" loading="lazy">`;
-        bookElement.appendChild(pageDiv);
-    }
-
-    window.onload = () => {
-        // 画像の比率 1500:2120 に基づく設定
-        const pageFlip = new St.PageFlip(bookElement, {
-            width: 1500,
-            height: 2120,
-            size: "stretch",
-            minWidth: 300,
-            maxWidth: 1500,
-            minHeight: 424,
-            maxHeight: 2120,
-            showCover: true,      // 表紙を1枚にする
-            drawShadow: true,
-            flippingTime: 1000,
-            usePortrait: true,    // 縦向き（スマホ）の時は自動で1枚表示に切替
-            startPage: 0,
-            autoSize: true,
-            mobileScrollSupport: true // スマホでのスクロール干渉を抑制
-        });
-
-        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-        // 画面サイズが変わった時に再計算させる（スマホの回転対策）
-        window.addEventListener('resize', () => {
-            pageFlip.update();
-        });
-    };
-</script>
 
 </body>
 </html>
