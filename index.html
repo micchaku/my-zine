@@ -18,8 +18,8 @@ box-sizing:border-box;
 
 body{
 background:#111;
-overflow:hidden;
 font-family:Helvetica,Arial,sans-serif;
+overflow:hidden;
 }
 
 /* コンテナ */
@@ -27,7 +27,6 @@ font-family:Helvetica,Arial,sans-serif;
 .container{
 
 display:flex;
-
 height:100vh;
 width:100vw;
 
@@ -44,8 +43,6 @@ scroll-behavior:smooth;
 
 flex:0 0 auto;
 
-height:100vh;
-
 display:flex;
 align-items:center;
 justify-content:center;
@@ -54,35 +51,34 @@ scroll-snap-align:start;
 
 background:#111;
 
-position:relative;
-
 }
 
 /* 画像 */
 
 .page img{
 
-height:100vh;
-width:auto;
+width:100%;
+height:auto;
 
 display:block;
 
 }
 
-/* スマホ縦 */
+/* スマホ */
 
 @media (orientation:portrait){
 
 .page{
 
 width:100vw;
+
 padding:10px;
 
 }
 
 }
 
-/* 横画面（見開き） */
+/* PC見開き */
 
 @media (orientation:landscape){
 
@@ -102,7 +98,7 @@ width:100vw;
 width:100vw;
 }
 
-/* ノド補正 */
+/* 見開き補正 */
 
 .page:nth-child(odd){
 margin-right:-1px;
@@ -110,28 +106,6 @@ margin-right:-1px;
 
 .page:nth-child(even){
 margin-left:-1px;
-}
-
-/* 冊子影 */
-
-.page:nth-child(even)::after{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:-4px;
-
-width:8px;
-height:100%;
-
-background:linear-gradient(
-to right,
-rgba(0,0,0,0.4),
-rgba(0,0,0,0)
-);
-
 }
 
 }
@@ -211,11 +185,11 @@ const counter = document.getElementById("counter");
 
 viewer.addEventListener("scroll", () => {
 
-let pageWidth = window.innerWidth;
+let width = window.innerWidth;
 
 let scroll = viewer.scrollLeft;
 
-let page = Math.round(scroll / pageWidth) + 1;
+let page = Math.round(scroll / width) + 1;
 
 if(page < 1) page = 1;
 if(page > pages.length) page = pages.length;
