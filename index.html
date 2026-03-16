@@ -19,17 +19,17 @@ box-sizing:border-box;
 body{
 background:#111;
 overflow:hidden;
-font-family:Helvetica,Arial,sans-serif;
 }
 
 .container{
 display:flex;
 height:100dvh;
 overflow-x:auto;
+overflow-y:hidden;
 scroll-snap-type:x mandatory;
 }
 
-/* スプレッド */
+/* 見開き */
 
 .spread{
 flex:0 0 100vw;
@@ -51,36 +51,10 @@ max-width:50%;
 display:block;
 }
 
-/* 表紙 */
+/* 表紙と裏表紙 */
 
 .cover img{
 max-width:100%;
-}
-
-/* スマホ */
-
-@media (orientation:portrait){
-
-.spread{
-flex-direction:column;
-}
-
-.spread img{
-max-width:100%;
-height:auto;
-}
-
-}
-
-.counter{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-color:white;
-font-size:13px;
-letter-spacing:2px;
-opacity:0.7;
 }
 
 </style>
@@ -89,7 +63,7 @@ opacity:0.7;
 
 <body>
 
-<div class="container" id="viewer">
+<div class="container">
 
 <div class="spread cover">
 <img src="page01.jpg">
