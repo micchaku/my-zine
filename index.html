@@ -1,213 +1,100 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>solidus | 4th Anniversary Special Week</title>
+    <style>
+        /* 基本スタイル：余白をゼロにし、背景を白に設定 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-text-size-adjust: 100%;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        /* 画像コンテナ：画面中央に配置し、はみ出しを防止 */
+        .main-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* 画面の高さ一杯 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-<title>NEO HAIR SYNDROME ZINE</title>
+        /* 画像本体：上下が切れないように最大高さを制限 */
+        .protected-image {
+            max-width: 100%;
+            max-height: 90vh; /* スマホを横にしても上下が切れない設定 */
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+            display: block;
+        }
 
-<style>
+        /* 透明なガード層 */
+        .guard-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            z-index: 10;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#111;
-font-family:Helvetica,Arial,sans-serif;
-overflow:hidden;
-}
-
-/* コンテナ */
-
-.container{
-
-display:flex;
-height:100vh;
-width:100vw;
-
-overflow-x:auto;
-
-scroll-snap-type:x mandatory;
-scroll-behavior:smooth;
-
-}
-
-/* ページ */
-
-.page{
-
-flex:0 0 auto;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-scroll-snap-align:start;
-
-background:#111;
-
-}
-
-/* 画像 */
-
-.page img{
-
-width:100%;
-height:auto;
-
-display:block;
-
-}
-
-/* スマホ */
-
-@media (orientation:portrait){
-
-.page{
-
-width:100vw;
-
-padding:10px;
-
-}
-
-}
-
-/* PC見開き */
-
-@media (orientation:landscape){
-
-.page{
-width:50vw;
-}
-
-/* 表紙 */
-
-.page:first-child{
-width:100vw;
-}
-
-/* 裏表紙 */
-
-.page:last-child{
-width:100vw;
-}
-
-/* 見開き補正 */
-
-.page:nth-child(odd){
-margin-right:-1px;
-}
-
-.page:nth-child(even){
-margin-left:-1px;
-}
-
-}
-
-/* ページカウンター */
-
-.counter{
-
-position:fixed;
-
-bottom:20px;
-left:50%;
-
-transform:translateX(-50%);
-
-color:white;
-
-font-size:13px;
-letter-spacing:2px;
-
-opacity:0.7;
-
-}
-
-</style>
-
+        /* クーポンエリアのスタイル（ミニマル版） */
+        .coupon-section {
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container" id="viewer">
+    <div class="main-container">
+        <div style="margin-bottom: 20px; text-align: center;">
+            <span style="display: block; font-size: 8px; letter-spacing: 0.1em; color: #999; margin-bottom: 2px;">4th anniv. special week</span>
+            <span style="display: block; font-size: 14px; letter-spacing: 0.05em; color: #000; margin-bottom: 2px; font-weight: bold;">10% OFF COUPON</span>
+            <span style="display: block; font-size: 8px; color: #888; margin-bottom: 12px; letter-spacing: 0.05em;">3/11 wed - 3/17 tue</span>
+            
+            <div style="display: inline-block; padding: 8px 25px; background: #f7f7f7; border-radius: 2px;">
+                <span style="display: block; font-size: 8px; color: #999; margin-bottom: 2px;">COUPON CODE :</span>
+                <span style="display: block; font-size: 16px; font-weight: bold; letter-spacing: 0.2em; color: #000; user-select: all; -webkit-user-select: all;">solidus</span>
+            </div>
+            <span style="display: block; font-size: 8px; color: #aaa; margin-top: 10px;">決済画面で上記コードをご入力ください</span>
+        </div>
 
-<div class="page"><img src="page01.jpg"></div>
-<div class="page"><img src="page02.jpg"></div>
-<div class="page"><img src="page03.jpg"></div>
-<div class="page"><img src="page04.jpg"></div>
-<div class="page"><img src="page05.jpg"></div>
-<div class="page"><img src="page06.jpg"></div>
-<div class="page"><img src="page07.jpg"></div>
-<div class="page"><img src="page08.jpg"></div>
-<div class="page"><img src="page09.jpg"></div>
-<div class="page"><img src="page10.jpg"></div>
-<div class="page"><img src="page11.jpg"></div>
-<div class="page"><img src="page12.jpg"></div>
-<div class="page"><img src="page13.jpg"></div>
-<div class="page"><img src="page14.jpg"></div>
-<div class="page"><img src="page15.jpg"></div>
-<div class="page"><img src="page16.jpg"></div>
-<div class="page"><img src="page17.jpg"></div>
-<div class="page"><img src="page18.jpg"></div>
-<div class="page"><img src="page19.jpg"></div>
-<div class="page"><img src="page20.jpg"></div>
-<div class="page"><img src="page21.jpg"></div>
-<div class="page"><img src="page22.jpg"></div>
-<div class="page"><img src="page23.jpg"></div>
-<div class="page"><img src="page24.jpg"></div>
-<div class="page"><img src="page25.jpg"></div>
-<div class="page"><img src="page26.jpg"></div>
-<div class="page"><img src="page27.jpg"></div>
-<div class="page"><img src="page28.jpg"></div>
-<div class="page"><img src="page29.jpg"></div>
-<div class="page"><img src="page30.jpg"></div>
-<div class="page"><img src="page31.jpg"></div>
-<div class="page"><img src="page32.jpg"></div>
+        <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%;">
+            <img src="https://image.jimcdn.com/app/cms/image/transf/none/path/s577b754e0ee8888f/image/ifcd50c4fc7f1c5e1/version/1773384971/image.png" 
+                 class="protected-image" 
+                 oncontextmenu="return false;" 
+                 onselectstart="return false;" 
+                 onmousedown="return false;">
+            <div class="guard-layer"></div>
+        </div>
+    </div>
 
-</div>
+    <script>
+        // 右クリックとドラッグの徹底防止
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, false);
 
-<div class="counter" id="counter">
-1 / 32
-</div>
-
-<script>
-
-const viewer = document.getElementById("viewer");
-const pages = document.querySelectorAll(".page");
-const counter = document.getElementById("counter");
-
-viewer.addEventListener("scroll", () => {
-
-let width = window.innerWidth;
-
-let scroll = viewer.scrollLeft;
-
-let page = Math.round(scroll / width) + 1;
-
-if(page < 1) page = 1;
-if(page > pages.length) page = pages.length;
-
-counter.innerText = page + " / " + pages.length;
-
-});
-
-</script>
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        }, false);
+    </script>
 
 </body>
 </html>
-/* 表紙と裏表紙の画像補正 */
-
-.page:first-child img,
-.page:last-child img{
-
-height:100vh;
-width:auto;
-
-}
