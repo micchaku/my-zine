@@ -15,6 +15,8 @@ background:#111;
 overflow:hidden;
 }
 
+/* スクロールコンテナ */
+
 .container{
 display:flex;
 width:100vw;
@@ -34,27 +36,28 @@ justify-content:center;
 align-items:center;
 height:100vh;
 background:#111;
+position:relative;
 }
 
 .page img{
-height:95vh;
-width:auto;
-max-width:100%;
+width:100%;
+height:100%;
 object-fit:contain;
-background:white;
 }
 
-/* 縦 */
+/* 縦（スマホ） */
 
 @media (orientation:portrait){
 
 .page{
 width:100vw;
+padding:10px;
+box-sizing:border-box;
 }
 
 }
 
-/* 横 */
+/* 横（見開き） */
 
 @media (orientation:landscape){
 
@@ -63,13 +66,38 @@ width:50vw;
 }
 
 /* 表紙 */
+
 .page:first-child{
 width:100vw;
 }
 
 /* 裏表紙 */
+
 .page:last-child{
 width:100vw;
+}
+
+/* 見開き写真をつなぐ */
+
+.page img{
+object-fit:cover;
+}
+
+/* 冊子の中央影 */
+
+.page:nth-child(even)::after{
+
+content:"";
+position:absolute;
+right:-1px;
+top:0;
+width:8px;
+height:100%;
+background:linear-gradient(to right,
+rgba(0,0,0,0.25),
+rgba(0,0,0,0)
+);
+
 }
 
 }
