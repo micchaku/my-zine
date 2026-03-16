@@ -5,208 +5,117 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEO HAIR SYNDROME ZINE</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<title>Solidus Digital Zine</title>
 
 <style>
 
 body{
 margin:0;
-background:#000;
-font-family:sans-serif;
+background:#111;
 overflow:hidden;
 }
 
-/* 表紙 */
-
-#cover{
-position:fixed;
-width:100%;
-height:100%;
-background:#000;
+.container{
 display:flex;
-justify-content:center;
-align-items:center;
-z-index:10;
-}
-
-#openBtn{
-color:white;
-border:1px solid white;
-padding:15px 40px;
-cursor:pointer;
-letter-spacing:3px;
-}
-
-/* ZINE */
-
-#viewer{
 width:100vw;
 height:100vh;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
+}
+
+/* ページ */
+
+.page{
+flex-shrink:0;
+scroll-snap-align:start;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
+background:#111;
 }
 
-#book{
-width:90vw;
-height:90vh;
-}
-
-#book img{
-width:100%;
-height:100%;
+.page img{
+height:95vh;
+width:auto;
+max-width:100%;
 object-fit:contain;
 background:white;
 }
 
-/* UI */
+/* 縦 */
 
-#ui{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-color:white;
-font-size:14px;
-letter-spacing:2px;
+@media (orientation:portrait){
+
+.page{
+width:100vw;
 }
 
-#fullscreen{
-position:fixed;
-top:20px;
-right:20px;
-color:white;
-cursor:pointer;
-font-size:14px;
+}
+
+/* 横 */
+
+@media (orientation:landscape){
+
+.page{
+width:50vw;
+}
+
+/* 表紙 */
+.page:first-child{
+width:100vw;
+}
+
+/* 裏表紙 */
+.page:last-child{
+width:100vw;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div id="cover">
-<div id="openBtn">OPEN ZINE</div>
-</div>
+<div class="container">
 
-<div id="viewer">
-
-<div id="book">
-
-<div><img src="page01.jpg"></div>
-<div><img src="page02.jpg"></div>
-<div><img src="page03.jpg"></div>
-<div><img src="page04.jpg"></div>
-<div><img src="page05.jpg"></div>
-<div><img src="page06.jpg"></div>
-<div><img src="page07.jpg"></div>
-<div><img src="page08.jpg"></div>
-<div><img src="page09.jpg"></div>
-<div><img src="page10.jpg"></div>
-<div><img src="page11.jpg"></div>
-<div><img src="page12.jpg"></div>
-<div><img src="page13.jpg"></div>
-<div><img src="page14.jpg"></div>
-<div><img src="page15.jpg"></div>
-<div><img src="page16.jpg"></div>
-<div><img src="page17.jpg"></div>
-<div><img src="page18.jpg"></div>
-<div><img src="page19.jpg"></div>
-<div><img src="page20.jpg"></div>
-<div><img src="page21.jpg"></div>
-<div><img src="page22.jpg"></div>
-<div><img src="page23.jpg"></div>
-<div><img src="page24.jpg"></div>
-<div><img src="page25.jpg"></div>
-<div><img src="page26.jpg"></div>
-<div><img src="page27.jpg"></div>
-<div><img src="page28.jpg"></div>
-<div><img src="page29.jpg"></div>
-<div><img src="page30.jpg"></div>
-<div><img src="page31.jpg"></div>
-<div><img src="page32.jpg"></div>
+<div class="page"><img src="page01.jpg"></div>
+<div class="page"><img src="page02.jpg"></div>
+<div class="page"><img src="page03.jpg"></div>
+<div class="page"><img src="page04.jpg"></div>
+<div class="page"><img src="page05.jpg"></div>
+<div class="page"><img src="page06.jpg"></div>
+<div class="page"><img src="page07.jpg"></div>
+<div class="page"><img src="page08.jpg"></div>
+<div class="page"><img src="page09.jpg"></div>
+<div class="page"><img src="page10.jpg"></div>
+<div class="page"><img src="page11.jpg"></div>
+<div class="page"><img src="page12.jpg"></div>
+<div class="page"><img src="page13.jpg"></div>
+<div class="page"><img src="page14.jpg"></div>
+<div class="page"><img src="page15.jpg"></div>
+<div class="page"><img src="page16.jpg"></div>
+<div class="page"><img src="page17.jpg"></div>
+<div class="page"><img src="page18.jpg"></div>
+<div class="page"><img src="page19.jpg"></div>
+<div class="page"><img src="page20.jpg"></div>
+<div class="page"><img src="page21.jpg"></div>
+<div class="page"><img src="page22.jpg"></div>
+<div class="page"><img src="page23.jpg"></div>
+<div class="page"><img src="page24.jpg"></div>
+<div class="page"><img src="page25.jpg"></div>
+<div class="page"><img src="page26.jpg"></div>
+<div class="page"><img src="page27.jpg"></div>
+<div class="page"><img src="page28.jpg"></div>
+<div class="page"><img src="page29.jpg"></div>
+<div class="page"><img src="page30.jpg"></div>
+<div class="page"><img src="page31.jpg"></div>
+<div class="page"><img src="page32.jpg"></div>
 
 </div>
-
-</div>
-
-<div id="ui">1 / 32</div>
-
-<div id="fullscreen">FULL</div>
-
-<script>
-
-let totalPages = 32
-
-function initBook(){
-
-let portrait = window.innerHeight > window.innerWidth
-
-if(portrait){
-
-$("#book").turn({
-width: window.innerWidth * 0.95,
-height: window.innerHeight * 0.95,
-display: "single",
-autoCenter:true,
-when:{
-turned:updatePage
-}
-})
-
-}else{
-
-$("#book").turn({
-width: window.innerWidth * 0.9,
-height: window.innerHeight * 0.9,
-display: "double",
-autoCenter:true,
-when:{
-turned:updatePage
-}
-})
-
-}
-
-}
-
-function updatePage(e,page){
-
-document.getElementById("ui").innerHTML = page + " / " + totalPages
-
-}
-
-document.getElementById("openBtn").onclick = function(){
-
-document.getElementById("cover").style.display="none"
-
-initBook()
-
-}
-
-document.getElementById("fullscreen").onclick = function(){
-
-if(!document.fullscreenElement){
-document.documentElement.requestFullscreen()
-}else{
-document.exitFullscreen()
-}
-
-}
-
-window.addEventListener("resize", function(){
-
-if($("#book").data("turn")){
-$("#book").turn("destroy")
-initBook()
-}
-
-})
-
-</script>
 
 </body>
 </html>
