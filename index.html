@@ -13,6 +13,14 @@ body {
     background: #111;
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    /* 開始時のふわっとした表示演出 */
+    opacity: 0;
+    animation: fadeInPage 1.5s ease forwards;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* 2. ビューワー */
@@ -47,7 +55,7 @@ body {
     user-select: none;
 }
 
-/* 5. 【修正】左ページのみに緩やかなグラデーション（Landscape時のみ） */
+/* 5. 左ページのみに緩やかなグラデーション（Landscape時のみ） */
 @media (orientation: landscape) {
     .page.spread::after {
         content: "";
@@ -56,16 +64,12 @@ body {
         left: 0;
         width: 100%;
         height: 100%;
-        /* 左端から25%地点までは透明（元の色）、
-           そこから中心（50%）にかけて、じわじわと薄い影を落とします。
-           右半分（50.1%以降）は完全に透明（元の色）です。
-        */
         background: linear-gradient(to right, 
             rgba(0,0,0,0) 0%, 
-            rgba(0,0,0,0) 30%,        /* 左の半分（30%）までは元の色 */
-            rgba(0,0,0,0.07) 49.8%,   /* 中心に向かって緩やかに影を濃くする */
-            rgba(255,255,255,0.08) 50%, /* 境界線にだけわずかなハイライト */
-            rgba(0,0,0,0) 50.1%,      /* 右ページは即座に透明に戻す */
+            rgba(0,0,0,0) 30%, 
+            rgba(0,0,0,0.07) 49.8%, 
+            rgba(255,255,255,0.08) 50%, 
+            rgba(0,0,0,0) 50.1%, 
             rgba(0,0,0,0) 100%
         );
         pointer-events: none;
@@ -97,19 +101,40 @@ body {
     width: 0%;
     transition: width 0.1s ease-out;
 }
+
+/* 電子書籍ガイダンス表示 */
+.guide-overlay {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    writing-mode: vertical-rl;
+    opacity: 0.5;
+    z-index: 1000;
+    pointer-events: none;
+    animation: bounceRight 2s infinite;
+}
+
+@keyframes bounceRight {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(-10px); }
+}
 </style>
 </head>
 
 <body>
+
+<div class="guide-overlay">SWIPE TO READ</div>
 
 <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
 </div>
 
 <div class="viewer" id="zineViewer">
-
     <div class="page"><img src="cover.jpg"></div>
-
     <div class="page spread"><img src="spread-02-03.jpg"></div>
     <div class="page spread"><img src="spread-04-05.jpg"></div>
     <div class="page spread"><img src="spread-06-07.jpg"></div>
@@ -125,7 +150,6 @@ body {
     <div class="page spread"><img src="spread-26-27.jpg"></div>
     <div class="page spread"><img src="spread-28-29.jpg"></div>
     <div class="page spread"><img src="spread-30-31.jpg"></div>
-
     <div class="page single"><img src="page01.jpg"></div>
     <div class="page single"><img src="page02.jpg"></div>
     <div class="page single"><img src="page03.jpg"></div>
@@ -157,20 +181,35 @@ body {
     <div class="page single"><img src="page29.jpg"></div>
     <div class="page single"><img src="page30.jpg"></div>
     <div class="page single"><img src="page31.jpg"></div>
-
     <div class="page"><img src="back.jpg"></div>
-
 </div>
 
 <script>
     const viewer = document.getElementById('zineViewer');
     const progressBar = document.getElementById('progressBar');
 
+    // 1. スクロール連動（プログレスバー）
     viewer.addEventListener('scroll', () => {
         const scrollLeft = viewer.scrollLeft;
         const scrollWidth = viewer.scrollWidth - viewer.clientWidth;
         const scrolled = (scrollLeft / scrollWidth) * 100;
         progressBar.style.width = scrolled + "%";
+        
+        // 一度でもスクロールしたらガイドを消す
+        if(scrollLeft > 50) {
+            document.querySelector('.guide-overlay').style.opacity = "0";
+        }
+    });
+
+    // 2. 開いた瞬間の「チラ見せ（パラパラ）」ギミック
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            // 300pxほど右に自動スクロールして、すぐ戻る
+            viewer.scrollTo({ left: 150, behavior: 'smooth' });
+            setTimeout(() => {
+                viewer.scrollTo({ left: 0, behavior: 'smooth' });
+            }, 600);
+        }, 1000);
     });
 
     document.addEventListener('contextmenu', e => e.preventDefault());
