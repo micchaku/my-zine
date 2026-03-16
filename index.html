@@ -170,3 +170,17 @@ counter.innerText = page + " / " + pages.length;
 
 </body>
 </html>
+
+/* 見開き中央を接続 */
+
+@media (orientation:landscape){
+
+.page:not(:first-child):not(:last-child):nth-child(odd){
+margin-right:-3px;
+}
+
+.page:not(:first-child):not(:last-child):nth-child(even){
+margin-left:-3px;
+}
+
+}
