@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="ja">
+
 <head>
 
 <meta charset="UTF-8">
@@ -15,18 +16,23 @@ margin:0;
 background:#000;
 }
 
+/* 横スクロール */
+
 .viewer{
 display:flex;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
+-webkit-overflow-scrolling:touch;
 }
 
 .page{
 flex:0 0 100vw;
 height:100vh;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 scroll-snap-align:start;
 }
 
@@ -34,6 +40,26 @@ scroll-snap-align:start;
 max-width:100%;
 max-height:100%;
 object-fit:contain;
+}
+
+/* 縦スマホ */
+
+@media (orientation:portrait){
+
+.spread{
+display:none;
+}
+
+}
+
+/* PC・スマホ横 */
+
+@media (orientation:landscape){
+
+.single{
+display:none;
+}
+
 }
 
 </style>
@@ -44,41 +70,65 @@ object-fit:contain;
 
 <div class="viewer">
 
-<div class="page"><img src="cover.jpg"></div>
+<div class="page">
+<img src="cover.jpg">
+</div>
 
-<div class="page"><img src="page01.jpg"></div>
-<div class="page"><img src="page02.jpg"></div>
-<div class="page"><img src="page03.jpg"></div>
-<div class="page"><img src="page04.jpg"></div>
-<div class="page"><img src="page05.jpg"></div>
-<div class="page"><img src="page06.jpg"></div>
-<div class="page"><img src="page07.jpg"></div>
-<div class="page"><img src="page08.jpg"></div>
-<div class="page"><img src="page09.jpg"></div>
-<div class="page"><img src="page10.jpg"></div>
-<div class="page"><img src="page11.jpg"></div>
-<div class="page"><img src="page12.jpg"></div>
-<div class="page"><img src="page13.jpg"></div>
-<div class="page"><img src="page14.jpg"></div>
-<div class="page"><img src="page15.jpg"></div>
-<div class="page"><img src="page16.jpg"></div>
-<div class="page"><img src="page17.jpg"></div>
-<div class="page"><img src="page18.jpg"></div>
-<div class="page"><img src="page19.jpg"></div>
-<div class="page"><img src="page20.jpg"></div>
-<div class="page"><img src="page21.jpg"></div>
-<div class="page"><img src="page22.jpg"></div>
-<div class="page"><img src="page23.jpg"></div>
-<div class="page"><img src="page24.jpg"></div>
-<div class="page"><img src="page25.jpg"></div>
-<div class="page"><img src="page26.jpg"></div>
-<div class="page"><img src="page27.jpg"></div>
-<div class="page"><img src="page28.jpg"></div>
-<div class="page"><img src="page29.jpg"></div>
-<div class="page"><img src="page30.jpg"></div>
-<div class="page"><img src="page31.jpg"></div>
+<!-- 見開き -->
 
-<div class="page"><img src="back.jpg"></div>
+<div class="page spread"><img src="spread-02-03.jpg"></div>
+<div class="page spread"><img src="spread-04-05.jpg"></div>
+<div class="page spread"><img src="spread-06-07.jpg"></div>
+<div class="page spread"><img src="spread-08-09.jpg"></div>
+<div class="page spread"><img src="spread-10-11.jpg"></div>
+<div class="page spread"><img src="spread-12-13.jpg"></div>
+<div class="page spread"><img src="spread-14-15.jpg"></div>
+<div class="page spread"><img src="spread-16-17.jpg"></div>
+<div class="page spread"><img src="spread-18-19.jpg"></div>
+<div class="page spread"><img src="spread-20-21.jpg"></div>
+<div class="page spread"><img src="spread-22-23.jpg"></div>
+<div class="page spread"><img src="spread-24-25.jpg"></div>
+<div class="page spread"><img src="spread-26-27.jpg"></div>
+<div class="page spread"><img src="spread-28-29.jpg"></div>
+<div class="page spread"><img src="spread-30-31.jpg"></div>
+
+<!-- 縦スマホ用 -->
+
+<div class="page single"><img src="page01.jpg"></div>
+<div class="page single"><img src="page02.jpg"></div>
+<div class="page single"><img src="page03.jpg"></div>
+<div class="page single"><img src="page04.jpg"></div>
+<div class="page single"><img src="page05.jpg"></div>
+<div class="page single"><img src="page06.jpg"></div>
+<div class="page single"><img src="page07.jpg"></div>
+<div class="page single"><img src="page08.jpg"></div>
+<div class="page single"><img src="page09.jpg"></div>
+<div class="page single"><img src="page10.jpg"></div>
+<div class="page single"><img src="page11.jpg"></div>
+<div class="page single"><img src="page12.jpg"></div>
+<div class="page single"><img src="page13.jpg"></div>
+<div class="page single"><img src="page14.jpg"></div>
+<div class="page single"><img src="page15.jpg"></div>
+<div class="page single"><img src="page16.jpg"></div>
+<div class="page single"><img src="page17.jpg"></div>
+<div class="page single"><img src="page18.jpg"></div>
+<div class="page single"><img src="page19.jpg"></div>
+<div class="page single"><img src="page20.jpg"></div>
+<div class="page single"><img src="page21.jpg"></div>
+<div class="page single"><img src="page22.jpg"></div>
+<div class="page single"><img src="page23.jpg"></div>
+<div class="page single"><img src="page24.jpg"></div>
+<div class="page single"><img src="page25.jpg"></div>
+<div class="page single"><img src="page26.jpg"></div>
+<div class="page single"><img src="page27.jpg"></div>
+<div class="page single"><img src="page28.jpg"></div>
+<div class="page single"><img src="page29.jpg"></div>
+<div class="page single"><img src="page30.jpg"></div>
+<div class="page single"><img src="page31.jpg"></div>
+
+<div class="page">
+<img src="back.jpg">
+</div>
 
 </div>
 
