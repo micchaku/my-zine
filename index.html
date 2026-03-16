@@ -6,15 +6,16 @@
 <title>Solidus Digital ZINE</title>
 
 <style>
-/* 基本設定 */
+/* 1. 基本レイアウト設定 */
 body {
     margin: 0;
-    background: #111;
+    padding: 0;
+    background: #111; /* 高級感のある微細なグレー黒 */
     overflow: hidden;
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 }
 
-/* ビューワー本体 */
+/* 2. ビューワー（スクロールエリア） */
 .viewer {
     display: flex;
     overflow-x: auto;
@@ -25,7 +26,7 @@ body {
     height: 100vh;
 }
 
-/* 各ページ */
+/* 3. 各ページの枠組み */
 .page {
     flex: 0 0 100vw;
     height: 100vh;
@@ -36,53 +37,60 @@ body {
     position: relative;
 }
 
-/* 画像の表示設定 */
+/* 4. 画像の表示と保護設定 */
 .page img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    pointer-events: none;
+    pointer-events: none; /* 保存ガード */
     -webkit-user-select: none;
     user-select: none;
 }
 
-/* 【雑誌演出】見開きの中央に「ノド（影）」を入れる */
+/* 5. 【雑誌演出】見開きの中央に繊細な「折り目」を入れる（Landscape時のみ） */
 @media (orientation: landscape) {
     .page.spread::after {
         content: "";
         position: absolute;
         top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 15%; /* 影の広がりを少し強調 */
+        left: 0;
+        width: 100%;
         height: 100%;
-        background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 100%);
+        /* 中央に1pxの極細の光を入れ、左右にわずかな明暗差を出す */
+        background: linear-gradient(to right, 
+            rgba(0,0,0,0.03) 0%, 
+            rgba(0,0,0,0.05) 49.8%, 
+            rgba(255,255,255,0.12) 50%, 
+            rgba(0,0,0,0) 50.2%, 
+            rgba(0,0,0,0) 100%
+        );
         pointer-events: none;
         z-index: 5;
     }
-    .single { display: none; } /* 縦用画像を隠す */
+    .single { display: none; } /* 縦向き専用画像を隠す */
 }
 
+/* 6. 縦向き時の設定 */
 @media (orientation: portrait) {
-    .spread { display: none; } /* 横用画像を隠す */
+    .spread { display: none; } /* 横向き専用画像を隠す */
 }
 
-/* スクロールバー非表示 */
+/* 7. スクロールバー非表示 */
 .viewer::-webkit-scrollbar { display: none; }
 
-/* 進捗バー */
+/* 8. 進捗バー（下部） */
 .progress-container {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 3px;
+    height: 2px;
     background: rgba(255,255,255,0.1);
     z-index: 100;
 }
 .progress-bar {
     height: 100%;
-    background: #fff;
+    background: #ffffff;
     width: 0%;
     transition: width 0.1s ease-out;
 }
@@ -155,7 +163,7 @@ body {
     const viewer = document.getElementById('zineViewer');
     const progressBar = document.getElementById('progressBar');
 
-    // プログレスバー更新
+    // スクロールに連動してプログレスバーを動かす
     viewer.addEventListener('scroll', () => {
         const scrollLeft = viewer.scrollLeft;
         const scrollWidth = viewer.scrollWidth - viewer.clientWidth;
@@ -163,7 +171,7 @@ body {
         progressBar.style.width = scrolled + "%";
     });
 
-    // 右クリック禁止
+    // 右クリック保存をグローバルに禁止
     document.addEventListener('contextmenu', e => e.preventDefault());
 </script>
 
