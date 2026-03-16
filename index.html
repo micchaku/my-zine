@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
 
 <meta charset="UTF-8">
@@ -21,13 +23,16 @@ overflow:hidden;
 font-family:Helvetica,Arial,sans-serif;
 }
 
+/* 横スクロールコンテナ */
+
 .container{
 display:flex;
 width:100vw;
-height:100vh;
+height:100dvh;
 overflow-x:auto;
 overflow-y:hidden;
 scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
 }
 
 /* ページ */
@@ -35,28 +40,29 @@ scroll-snap-type:x mandatory;
 .page{
 flex:0 0 auto;
 width:100vw;
-height:100vh;
+height:100dvh;
 scroll-snap-align:start;
 overflow:hidden;
 }
 
-/* 画像基本 */
+/* 画像 */
 
 .page img{
 width:100%;
 height:100%;
-display:block;
+max-height:100%;
 object-fit:cover;
+display:block;
 }
 
-/* 表紙と裏表紙は切れない */
+/* 表紙・裏表紙は切れない */
 
 .page:first-child img,
 .page:last-child img{
 object-fit:contain;
 }
 
-/* PC見開き */
+/* PC横画面（見開き） */
 
 @media (orientation:landscape){
 
