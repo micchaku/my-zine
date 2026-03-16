@@ -13,7 +13,6 @@ body {
     background: #111;
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-    /* 開始時のふわっとした表示演出 */
     opacity: 0;
     animation: fadeInPage 1.5s ease forwards;
 }
@@ -43,6 +42,8 @@ body {
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
+    /* ページ間の区切りをわずかに強調 */
+    box-shadow: inset 10px 0 20px -10px rgba(0,0,0,0.5), inset -10px 0 20px -10px rgba(0,0,0,0.5);
 }
 
 /* 4. 画像保護 */
@@ -55,7 +56,7 @@ body {
     user-select: none;
 }
 
-/* 5. 左ページのみに緩やかなグラデーション（Landscape時のみ） */
+/* 5. 【横向き】見開きの折り目演出 */
 @media (orientation: landscape) {
     .page.spread::after {
         content: "";
@@ -66,7 +67,7 @@ body {
         height: 100%;
         background: linear-gradient(to right, 
             rgba(0,0,0,0) 0%, 
-            rgba(0,0,0,0) 40%, 
+            rgba(0,0,0,0) 25%, 
             rgba(0,0,0,0.07) 49.8%, 
             rgba(255,255,255,0.08) 50%, 
             rgba(0,0,0,0) 50.1%, 
@@ -78,8 +79,25 @@ body {
     .single { display: none; }
 }
 
-/* 6. 縦向き設定 */
+/* 6. 【縦向き】ページ端に微細なグラデーション（境界をわからせる） */
 @media (orientation: portrait) {
+    .page::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* 左右の端にだけ、スッと消えるような極薄の影を配置 */
+        background: linear-gradient(to right, 
+            rgba(0,0,0,0.1) 0%, 
+            rgba(0,0,0,0) 3%, 
+            rgba(0,0,0,0) 97%, 
+            rgba(0,0,0,0.1) 100%
+        );
+        pointer-events: none;
+        z-index: 5;
+    }
     .spread { display: none; }
 }
 
@@ -102,26 +120,20 @@ body {
     transition: width 0.1s ease-out;
 }
 
-/* 電子書籍ガイダンス表示（視認性向上版） */
 .guide-overlay {
     position: fixed;
     top: 50%;
     right: 15px;
     transform: translateY(-50%);
-    
-    /* 文字の設定 */
     color: #fff;
     font-size: 10px;
     letter-spacing: 0.15em;
     writing-mode: vertical-rl;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* 文字に影をつけて読みやすく */
-    
-    /* 背景の設定：黒の半透明で視認性を確保 */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background: rgba(0, 0, 0, 0.4);
     padding: 15px 6px;
     border-radius: 20px;
-    backdrop-filter: blur(4px); /* 背景を少しぼかす（モダンな演出） */
-    
+    backdrop-filter: blur(4px);
     opacity: 0.8;
     z-index: 1000;
     pointer-events: none;
@@ -147,50 +159,8 @@ body {
 <div class="viewer" id="zineViewer">
     <div class="page"><img src="cover.jpg"></div>
     <div class="page spread"><img src="spread-02-03.jpg"></div>
-    <div class="page spread"><img src="spread-04-05.jpg"></div>
-    <div class="page spread"><img src="spread-06-07.jpg"></div>
-    <div class="page spread"><img src="spread-08-09.jpg"></div>
-    <div class="page spread"><img src="spread-10-11.jpg"></div>
-    <div class="page spread"><img src="spread-12-13.jpg"></div>
-    <div class="page spread"><img src="spread-14-15.jpg"></div>
-    <div class="page spread"><img src="spread-16-17.jpg"></div>
-    <div class="page spread"><img src="spread-18-19.jpg"></div>
-    <div class="page spread"><img src="spread-20-21.jpg"></div>
-    <div class="page spread"><img src="spread-22-23.jpg"></div>
-    <div class="page spread"><img src="spread-24-25.jpg"></div>
-    <div class="page spread"><img src="spread-26-27.jpg"></div>
-    <div class="page spread"><img src="spread-28-29.jpg"></div>
     <div class="page spread"><img src="spread-30-31.jpg"></div>
     <div class="page single"><img src="page01.jpg"></div>
-    <div class="page single"><img src="page02.jpg"></div>
-    <div class="page single"><img src="page03.jpg"></div>
-    <div class="page single"><img src="page04.jpg"></div>
-    <div class="page single"><img src="page05.jpg"></div>
-    <div class="page single"><img src="page06.jpg"></div>
-    <div class="page single"><img src="page07.jpg"></div>
-    <div class="page single"><img src="page08.jpg"></div>
-    <div class="page single"><img src="page09.jpg"></div>
-    <div class="page single"><img src="page10.jpg"></div>
-    <div class="page single"><img src="page11.jpg"></div>
-    <div class="page single"><img src="page12.jpg"></div>
-    <div class="page single"><img src="page13.jpg"></div>
-    <div class="page single"><img src="page14.jpg"></div>
-    <div class="page single"><img src="page15.jpg"></div>
-    <div class="page single"><img src="page16.jpg"></div>
-    <div class="page single"><img src="page17.jpg"></div>
-    <div class="page single"><img src="page18.jpg"></div>
-    <div class="page single"><img src="page19.jpg"></div>
-    <div class="page single"><img src="page20.jpg"></div>
-    <div class="page single"><img src="page21.jpg"></div>
-    <div class="page single"><img src="page22.jpg"></div>
-    <div class="page single"><img src="page23.jpg"></div>
-    <div class="page single"><img src="page24.jpg"></div>
-    <div class="page single"><img src="page25.jpg"></div>
-    <div class="page single"><img src="page26.jpg"></div>
-    <div class="page single"><img src="page27.jpg"></div>
-    <div class="page single"><img src="page28.jpg"></div>
-    <div class="page single"><img src="page29.jpg"></div>
-    <div class="page single"><img src="page30.jpg"></div>
     <div class="page single"><img src="page31.jpg"></div>
     <div class="page"><img src="back.jpg"></div>
 </div>
@@ -199,23 +169,18 @@ body {
     const viewer = document.getElementById('zineViewer');
     const progressBar = document.getElementById('progressBar');
 
-    // 1. スクロール連動（プログレスバー）
     viewer.addEventListener('scroll', () => {
         const scrollLeft = viewer.scrollLeft;
         const scrollWidth = viewer.scrollWidth - viewer.clientWidth;
         const scrolled = (scrollLeft / scrollWidth) * 100;
         progressBar.style.width = scrolled + "%";
-        
-        // 一度でもスクロールしたらガイドを消す
         if(scrollLeft > 50) {
             document.querySelector('.guide-overlay').style.opacity = "0";
         }
     });
 
-    // 2. 開いた瞬間の「チラ見せ（パラパラ）」ギミック
     window.addEventListener('load', () => {
         setTimeout(() => {
-            // 300pxほど右に自動スクロールして、すぐ戻る
             viewer.scrollTo({ left: 150, behavior: 'smooth' });
             setTimeout(() => {
                 viewer.scrollTo({ left: 0, behavior: 'smooth' });
