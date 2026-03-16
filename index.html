@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ZINE</title>
+<title>NEO HAIR SYNDROME ZINE</title>
 
 <style>
 
@@ -31,6 +31,7 @@ height:100vh;
 overflow-x:auto;
 overflow-y:hidden;
 scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
 }
 
 /* ページ */
@@ -40,11 +41,8 @@ flex:0 0 auto;
 width:100vw;
 height:100vh;
 
-display:flex;
-align-items:center;
-justify-content:center;
-
 scroll-snap-align:start;
+overflow:hidden;
 }
 
 /* 画像 */
@@ -54,7 +52,7 @@ scroll-snap-align:start;
 width:100%;
 height:100%;
 
-object-fit:contain;
+object-fit:cover;
 
 display:block;
 }
@@ -150,7 +148,6 @@ const counter = document.getElementById("counter");
 viewer.addEventListener("scroll", () => {
 
 let width = window.innerWidth;
-
 let scroll = viewer.scrollLeft;
 
 let page = Math.round(scroll / width) + 1;
