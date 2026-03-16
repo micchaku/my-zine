@@ -102,25 +102,36 @@ body {
     transition: width 0.1s ease-out;
 }
 
-/* 電子書籍ガイダンス表示 */
+/* 電子書籍ガイダンス表示（視認性向上版） */
 .guide-overlay {
     position: fixed;
     top: 50%;
-    right: 20px;
+    right: 15px;
     transform: translateY(-50%);
+    
+    /* 文字の設定 */
     color: #fff;
     font-size: 10px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     writing-mode: vertical-rl;
-    opacity: 0.5;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* 文字に影をつけて読みやすく */
+    
+    /* 背景の設定：黒の半透明で視認性を確保 */
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px 6px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px); /* 背景を少しぼかす（モダンな演出） */
+    
+    opacity: 0.8;
     z-index: 1000;
     pointer-events: none;
+    transition: opacity 0.5s ease;
     animation: bounceRight 2s infinite;
 }
 
 @keyframes bounceRight {
     0%, 100% { transform: translateY(-50%) translateX(0); }
-    50% { transform: translateY(-50%) translateX(-10px); }
+    50% { transform: translateY(-50%) translateX(-5px); }
 }
 </style>
 </head>
