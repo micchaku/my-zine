@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solidus Digital Zine</title>
+
+<title>NEO HAIR SYNDROME ZINE</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
@@ -12,12 +14,40 @@
 
 body{
 margin:0;
-background:#111;
+background:#000;
+font-family:sans-serif;
+overflow:hidden;
+}
+
+/* 表紙 */
+
+#cover{
+position:fixed;
+width:100%;
+height:100%;
+background:#000;
 display:flex;
 justify-content:center;
 align-items:center;
+z-index:10;
+}
+
+#openBtn{
+color:white;
+border:1px solid white;
+padding:15px 40px;
+cursor:pointer;
+letter-spacing:3px;
+}
+
+/* ZINE */
+
+#viewer{
+width:100vw;
 height:100vh;
-overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 #book{
@@ -32,32 +62,37 @@ object-fit:contain;
 background:white;
 }
 
-/* 縦向き（スマホ） */
+/* UI */
 
-@media (orientation:portrait){
-
-#book{
-width:95vw;
-height:95vh;
+#ui{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+color:white;
+font-size:14px;
+letter-spacing:2px;
 }
 
-}
-
-/* 横向き */
-
-@media (orientation:landscape){
-
-#book{
-width:90vw;
-height:90vh;
-}
-
+#fullscreen{
+position:fixed;
+top:20px;
+right:20px;
+color:white;
+cursor:pointer;
+font-size:14px;
 }
 
 </style>
 </head>
 
 <body>
+
+<div id="cover">
+<div id="openBtn">OPEN ZINE</div>
+</div>
+
+<div id="viewer">
 
 <div id="book">
 
@@ -96,7 +131,15 @@ height:90vh;
 
 </div>
 
+</div>
+
+<div id="ui">1 / 32</div>
+
+<div id="fullscreen">FULL</div>
+
 <script>
+
+let totalPages = 32
 
 function initBook(){
 
@@ -108,7 +151,10 @@ $("#book").turn({
 width: window.innerWidth * 0.95,
 height: window.innerHeight * 0.95,
 display: "single",
-autoCenter:true
+autoCenter:true,
+when:{
+turned:updatePage
+}
 })
 
 }else{
@@ -117,19 +163,46 @@ $("#book").turn({
 width: window.innerWidth * 0.9,
 height: window.innerHeight * 0.9,
 display: "double",
-autoCenter:true
+autoCenter:true,
+when:{
+turned:updatePage
+}
 })
 
 }
 
 }
 
+function updatePage(e,page){
+
+document.getElementById("ui").innerHTML = page + " / " + totalPages
+
+}
+
+document.getElementById("openBtn").onclick = function(){
+
+document.getElementById("cover").style.display="none"
+
 initBook()
+
+}
+
+document.getElementById("fullscreen").onclick = function(){
+
+if(!document.fullscreenElement){
+document.documentElement.requestFullscreen()
+}else{
+document.exitFullscreen()
+}
+
+}
 
 window.addEventListener("resize", function(){
 
+if($("#book").data("turn")){
 $("#book").turn("destroy")
 initBook()
+}
 
 })
 
