@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html lang="ja">
-
 <head>
 
 <meta charset="UTF-8">
@@ -23,23 +22,17 @@ overflow:hidden;
 font-family:Helvetica,Arial,sans-serif;
 }
 
-/* 横スクロールコンテナ */
-
 .container{
 display:flex;
-width:100vw;
 height:100dvh;
 overflow-x:auto;
-overflow-y:hidden;
 scroll-snap-type:x mandatory;
-scroll-behavior:smooth;
 }
 
-/* ページ */
+/* スプレッド */
 
-.page{
-flex:0 0 auto;
-width:100vw;
+.spread{
+flex:0 0 100vw;
 height:100dvh;
 
 display:flex;
@@ -51,54 +44,30 @@ scroll-snap-align:start;
 
 /* 画像 */
 
-.page img{
+.spread img{
 height:100%;
 width:auto;
-
-max-width:100%;
-max-height:100%;
-
+max-width:50%;
 display:block;
-}
-
-/* PC横画面 */
-
-@media (orientation:landscape){
-
-.page{
-width:50vw;
 }
 
 /* 表紙 */
 
-.page:first-child{
-width:100vw;
+.cover img{
+max-width:100%;
 }
 
-/* 裏表紙 */
+/* スマホ */
 
-.page:last-child{
-width:100vw;
+@media (orientation:portrait){
+
+.spread{
+flex-direction:column;
 }
 
-/* 見開き中央だけ接続 */
-
-.page:nth-child(2),
-.page:nth-child(4),
-.page:nth-child(6),
-.page:nth-child(8),
-.page:nth-child(10),
-.page:nth-child(12),
-.page:nth-child(14),
-.page:nth-child(16),
-.page:nth-child(18),
-.page:nth-child(20),
-.page:nth-child(22),
-.page:nth-child(24),
-.page:nth-child(26),
-.page:nth-child(28),
-.page:nth-child(30){
-margin-right:-4px;
+.spread img{
+max-width:100%;
+height:auto;
 }
 
 }
@@ -122,66 +91,90 @@ opacity:0.7;
 
 <div class="container" id="viewer">
 
-<div class="page"><img src="page01.jpg"></div>
-<div class="page"><img src="page02.jpg"></div>
-<div class="page"><img src="page03.jpg"></div>
-<div class="page"><img src="page04.jpg"></div>
-<div class="page"><img src="page05.jpg"></div>
-<div class="page"><img src="page06.jpg"></div>
-<div class="page"><img src="page07.jpg"></div>
-<div class="page"><img src="page08.jpg"></div>
-<div class="page"><img src="page09.jpg"></div>
-<div class="page"><img src="page10.jpg"></div>
-<div class="page"><img src="page11.jpg"></div>
-<div class="page"><img src="page12.jpg"></div>
-<div class="page"><img src="page13.jpg"></div>
-<div class="page"><img src="page14.jpg"></div>
-<div class="page"><img src="page15.jpg"></div>
-<div class="page"><img src="page16.jpg"></div>
-<div class="page"><img src="page17.jpg"></div>
-<div class="page"><img src="page18.jpg"></div>
-<div class="page"><img src="page19.jpg"></div>
-<div class="page"><img src="page20.jpg"></div>
-<div class="page"><img src="page21.jpg"></div>
-<div class="page"><img src="page22.jpg"></div>
-<div class="page"><img src="page23.jpg"></div>
-<div class="page"><img src="page24.jpg"></div>
-<div class="page"><img src="page25.jpg"></div>
-<div class="page"><img src="page26.jpg"></div>
-<div class="page"><img src="page27.jpg"></div>
-<div class="page"><img src="page28.jpg"></div>
-<div class="page"><img src="page29.jpg"></div>
-<div class="page"><img src="page30.jpg"></div>
-<div class="page"><img src="page31.jpg"></div>
-<div class="page"><img src="page32.jpg"></div>
-
+<div class="spread cover">
+<img src="page01.jpg">
 </div>
 
-<div class="counter" id="counter">
-1 / 32
+<div class="spread">
+<img src="page02.jpg">
+<img src="page03.jpg">
 </div>
 
-<script>
+<div class="spread">
+<img src="page04.jpg">
+<img src="page05.jpg">
+</div>
 
-const viewer = document.getElementById("viewer");
-const pages = document.querySelectorAll(".page");
-const counter = document.getElementById("counter");
+<div class="spread">
+<img src="page06.jpg">
+<img src="page07.jpg">
+</div>
 
-viewer.addEventListener("scroll", () => {
+<div class="spread">
+<img src="page08.jpg">
+<img src="page09.jpg">
+</div>
 
-let width = window.innerWidth;
-let scroll = viewer.scrollLeft;
+<div class="spread">
+<img src="page10.jpg">
+<img src="page11.jpg">
+</div>
 
-let page = Math.round(scroll / width) + 1;
+<div class="spread">
+<img src="page12.jpg">
+<img src="page13.jpg">
+</div>
 
-if(page < 1) page = 1;
-if(page > pages.length) page = pages.length;
+<div class="spread">
+<img src="page14.jpg">
+<img src="page15.jpg">
+</div>
 
-counter.innerText = page + " / " + pages.length;
+<div class="spread">
+<img src="page16.jpg">
+<img src="page17.jpg">
+</div>
 
-});
+<div class="spread">
+<img src="page18.jpg">
+<img src="page19.jpg">
+</div>
 
-</script>
+<div class="spread">
+<img src="page20.jpg">
+<img src="page21.jpg">
+</div>
+
+<div class="spread">
+<img src="page22.jpg">
+<img src="page23.jpg">
+</div>
+
+<div class="spread">
+<img src="page24.jpg">
+<img src="page25.jpg">
+</div>
+
+<div class="spread">
+<img src="page26.jpg">
+<img src="page27.jpg">
+</div>
+
+<div class="spread">
+<img src="page28.jpg">
+<img src="page29.jpg">
+</div>
+
+<div class="spread">
+<img src="page30.jpg">
+<img src="page31.jpg">
+</div>
+
+<div class="spread cover">
+<img src="page32.jpg">
+</div>
+
+</div>
 
 </body>
 </html>
