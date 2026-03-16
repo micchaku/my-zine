@@ -1,124 +1,139 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Solidus Digital Zine</title>
-    <style>
-        body, html { 
-            margin: 0; padding: 0; 
-            width: 100%; height: 100%;
-            background-color: #f4f4f4;
-            /* 拡大操作を妨げない設定 */
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solidus Digital Zine</title>
 
-        /* スライドコンテナ */
-        .container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 
-        /* 1ページ分の枠 */
-        .page {
-            display: flex;
-            height: 100vh;
-            flex-shrink: 0;
-            scroll-snap-align: start;
-        }
+<style>
 
-        .page-img {
-            display: block;
-            object-fit: contain;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            background-color: #fff;
-        }
+body{
+margin:0;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
 
-        /* --- 縦向き：1枚表示 --- */
-        @media (orientation: portrait) {
-            .page {
-                width: 100vw;
-                justify-content: center;
-                align-items: center;
-                padding: 15px;
-                box-sizing: border-box;
-            }
-            .page-img {
-                max-width: 100%;
-                max-height: 100%;
-            }
-        }
+#book{
+width:90vw;
+height:90vh;
+}
 
-        /* --- 横向き：表紙は1枚、次から隙間なし見開き --- */
-        @media (orientation: landscape) {
-            /* 1枚目（表紙）と最後は中央 */
-            .page:first-child, .page:last-child {
-                flex: 0 0 100vw;
-                width: 100vw;
-                justify-content: center;
-                align-items: center;
-            }
+#book img{
+width:100%;
+height:100%;
+object-fit:contain;
+background:white;
+}
 
-            /* 2枚目以降は見開き（50%幅） */
-            .page:not(:first-child):not(:last-child) {
-                flex: 0 0 50vw;
-                width: 50vw;
-            }
+/* 縦向き（スマホ） */
 
-            /* 左ページを右寄せ、右ページを左寄せで密着 */
-            .page:nth-child(even) { justify-content: flex-end; }
-            .page:nth-child(odd):not(:first-child) { justify-content: flex-start; }
-            
-            .page-img {
-                width: auto;
-                height: 100%;
-                max-width: 100%;
-            }
-        }
-    </style>
+@media (orientation:portrait){
+
+#book{
+width:95vw;
+height:95vh;
+}
+
+}
+
+/* 横向き */
+
+@media (orientation:landscape){
+
+#book{
+width:90vw;
+height:90vh;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="page"><img src="page01.jpg" class="page-img"></div>
-    <div class="page"><img src="page02.jpg" class="page-img"></div>
-    <div class="page"><img src="page03.jpg" class="page-img"></div>
-    <div class="page"><img src="page04.jpg" class="page-img"></div>
-    <div class="page"><img src="page05.jpg" class="page-img"></div>
-    <div class="page"><img src="page06.jpg" class="page-img"></div>
-    <div class="page"><img src="page07.jpg" class="page-img"></div>
-    <div class="page"><img src="page08.jpg" class="page-img"></div>
-    <div class="page"><img src="page09.jpg" class="page-img"></div>
-    <div class="page"><img src="page10.jpg" class="page-img"></div>
-    <div class="page"><img src="page11.jpg" class="page-img"></div>
-    <div class="page"><img src="page12.jpg" class="page-img"></div>
-    <div class="page"><img src="page13.jpg" class="page-img"></div>
-    <div class="page"><img src="page14.jpg" class="page-img"></div>
-    <div class="page"><img src="page15.jpg" class="page-img"></div>
-    <div class="page"><img src="page16.jpg" class="page-img"></div>
-    <div class="page"><img src="page17.jpg" class="page-img"></div>
-    <div class="page"><img src="page18.jpg" class="page-img"></div>
-    <div class="page"><img src="page19.jpg" class="page-img"></div>
-    <div class="page"><img src="page20.jpg" class="page-img"></div>
-    <div class="page"><img src="page21.jpg" class="page-img"></div>
-    <div class="page"><img src="page22.jpg" class="page-img"></div>
-    <div class="page"><img src="page23.jpg" class="page-img"></div>
-    <div class="page"><img src="page24.jpg" class="page-img"></div>
-    <div class="page"><img src="page25.jpg" class="page-img"></div>
-    <div class="page"><img src="page26.jpg" class="page-img"></div>
-    <div class="page"><img src="page27.jpg" class="page-img"></div>
-    <div class="page"><img src="page28.jpg" class="page-img"></div>
-    <div class="page"><img src="page29.jpg" class="page-img"></div>
-    <div class="page"><img src="page30.jpg" class="page-img"></div>
-    <div class="page"><img src="page31.jpg" class="page-img"></div>
-    <div class="page"><img src="page32.jpg" class="page-img"></div>
+<div id="book">
+
+<div><img src="page01.jpg"></div>
+<div><img src="page02.jpg"></div>
+<div><img src="page03.jpg"></div>
+<div><img src="page04.jpg"></div>
+<div><img src="page05.jpg"></div>
+<div><img src="page06.jpg"></div>
+<div><img src="page07.jpg"></div>
+<div><img src="page08.jpg"></div>
+<div><img src="page09.jpg"></div>
+<div><img src="page10.jpg"></div>
+<div><img src="page11.jpg"></div>
+<div><img src="page12.jpg"></div>
+<div><img src="page13.jpg"></div>
+<div><img src="page14.jpg"></div>
+<div><img src="page15.jpg"></div>
+<div><img src="page16.jpg"></div>
+<div><img src="page17.jpg"></div>
+<div><img src="page18.jpg"></div>
+<div><img src="page19.jpg"></div>
+<div><img src="page20.jpg"></div>
+<div><img src="page21.jpg"></div>
+<div><img src="page22.jpg"></div>
+<div><img src="page23.jpg"></div>
+<div><img src="page24.jpg"></div>
+<div><img src="page25.jpg"></div>
+<div><img src="page26.jpg"></div>
+<div><img src="page27.jpg"></div>
+<div><img src="page28.jpg"></div>
+<div><img src="page29.jpg"></div>
+<div><img src="page30.jpg"></div>
+<div><img src="page31.jpg"></div>
+<div><img src="page32.jpg"></div>
+
 </div>
+
+<script>
+
+function initBook(){
+
+let portrait = window.innerHeight > window.innerWidth
+
+if(portrait){
+
+$("#book").turn({
+width: window.innerWidth * 0.95,
+height: window.innerHeight * 0.95,
+display: "single",
+autoCenter:true
+})
+
+}else{
+
+$("#book").turn({
+width: window.innerWidth * 0.9,
+height: window.innerHeight * 0.9,
+display: "double",
+autoCenter:true
+})
+
+}
+
+}
+
+initBook()
+
+window.addEventListener("resize", function(){
+
+$("#book").turn("destroy")
+initBook()
+
+})
+
+</script>
 
 </body>
 </html>
