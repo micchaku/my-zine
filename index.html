@@ -18,28 +18,25 @@ box-sizing:border-box;
 
 body{
 background:#111;
-overflow:hidden;
 font-family:sans-serif;
+overflow:hidden;
 }
 
-/* ビューア */
+/* 共通ビューア */
 
 .viewer{
 display:flex;
-height:100vh;
+height:100dvh;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
--webkit-overflow-scrolling:touch;
 }
 
 .slide{
 flex:0 0 100vw;
-height:100vh;
-
+height:100dvh;
 display:flex;
 align-items:center;
 justify-content:center;
-
 scroll-snap-align:start;
 }
 
@@ -49,24 +46,33 @@ max-height:100%;
 object-fit:contain;
 }
 
+/* 見開き */
+
+.spread img{
+width:100%;
+height:auto;
+}
+
+/* PC / 横画面 */
+
+@media (orientation:landscape){
+
+.viewer{
+scroll-snap-type:x mandatory;
+}
+
+.slide{
+flex:0 0 100vw;
+}
+
+}
+
 /* スマホ縦 */
 
 @media (orientation:portrait){
 
-.slide img{
-width:auto;
-height:100%;
-}
-
-}
-
-/* PC・スマホ横 */
-
-@media (orientation:landscape){
-
-.slide img{
-width:100%;
-height:auto;
+.page{
+flex:0 0 100vw;
 }
 
 }
@@ -87,63 +93,63 @@ height:auto;
 
 <!-- spreads -->
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-02-03.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-04-05.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-06-07.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-08-09.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-10-11.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-12-13.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-14-15.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-16-17.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-18-19.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-20-21.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-22-23.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-24-25.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-26-27.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-28-29.jpg">
 </div>
 
-<div class="slide">
+<div class="slide spread">
 <img src="spread-30-31.jpg">
 </div>
 
